@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MusicList.h"
 @interface ViewController : UIViewController
 
+@property(strong,nonatomic)NSDictionary *searchDic;
 
 @end
 

@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B4979241BA16452003242AC /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979231BA16452003242AC /* Music.m */; };
+		7B4979271BA164A1003242AC /* MusicList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979261BA164A1003242AC /* MusicList.m */; };
+		7B4979401BA16AD4003242AC /* MJDictionaryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49792A1BA16AD4003242AC /* MJDictionaryCache.m */; };
+		7B4979411BA16AD4003242AC /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49792D1BA16AD4003242AC /* MJExtensionConst.m */; };
+		7B4979421BA16AD4003242AC /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49792F1BA16AD4003242AC /* MJFoundation.m */; };
+		7B4979431BA16AD4003242AC /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979311BA16AD4003242AC /* MJProperty.m */; };
+		7B4979441BA16AD4003242AC /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979331BA16AD4003242AC /* MJPropertyKey.m */; };
+		7B4979451BA16AD4003242AC /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979351BA16AD4003242AC /* MJPropertyType.m */; };
+		7B4979461BA16AD4003242AC /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979371BA16AD4003242AC /* NSObject+MJClass.m */; };
+		7B4979471BA16AD4003242AC /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979391BA16AD4003242AC /* NSObject+MJCoding.m */; };
+		7B4979481BA16AD4003242AC /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49793B1BA16AD4003242AC /* NSObject+MJKeyValue.m */; };
+		7B4979491BA16AD4003242AC /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49793D1BA16AD4003242AC /* NSObject+MJProperty.m */; };
+		7B49794A1BA16AD4003242AC /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49793F1BA16AD4003242AC /* NSString+MJExtension.m */; };
 		7BE2953D1BA031A7006056C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2953C1BA031A7006056C2 /* main.m */; };
 		7BE295401BA031A7006056C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2953F1BA031A7006056C2 /* AppDelegate.m */; };
 		7BE295431BA031A7006056C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE295421BA031A7006056C2 /* ViewController.m */; };
@@ -35,6 +48,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B4979221BA16452003242AC /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
+		7B4979231BA16452003242AC /* Music.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Music.m; sourceTree = "<group>"; };
+		7B4979251BA164A1003242AC /* MusicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicList.h; sourceTree = "<group>"; };
+		7B4979261BA164A1003242AC /* MusicList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicList.m; sourceTree = "<group>"; };
+		7B4979291BA16AD4003242AC /* MJDictionaryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJDictionaryCache.h; sourceTree = "<group>"; };
+		7B49792A1BA16AD4003242AC /* MJDictionaryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJDictionaryCache.m; sourceTree = "<group>"; };
+		7B49792B1BA16AD4003242AC /* MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtension.h; sourceTree = "<group>"; };
+		7B49792C1BA16AD4003242AC /* MJExtensionConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtensionConst.h; sourceTree = "<group>"; };
+		7B49792D1BA16AD4003242AC /* MJExtensionConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJExtensionConst.m; sourceTree = "<group>"; };
+		7B49792E1BA16AD4003242AC /* MJFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJFoundation.h; sourceTree = "<group>"; };
+		7B49792F1BA16AD4003242AC /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
+		7B4979301BA16AD4003242AC /* MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJProperty.h; sourceTree = "<group>"; };
+		7B4979311BA16AD4003242AC /* MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJProperty.m; sourceTree = "<group>"; };
+		7B4979321BA16AD4003242AC /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
+		7B4979331BA16AD4003242AC /* MJPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyKey.m; sourceTree = "<group>"; };
+		7B4979341BA16AD4003242AC /* MJPropertyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyType.h; sourceTree = "<group>"; };
+		7B4979351BA16AD4003242AC /* MJPropertyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyType.m; sourceTree = "<group>"; };
+		7B4979361BA16AD4003242AC /* NSObject+MJClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJClass.h"; sourceTree = "<group>"; };
+		7B4979371BA16AD4003242AC /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
+		7B4979381BA16AD4003242AC /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
+		7B4979391BA16AD4003242AC /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
+		7B49793A1BA16AD4003242AC /* NSObject+MJKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJKeyValue.h"; sourceTree = "<group>"; };
+		7B49793B1BA16AD4003242AC /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
+		7B49793C1BA16AD4003242AC /* NSObject+MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJProperty.h"; sourceTree = "<group>"; };
+		7B49793D1BA16AD4003242AC /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
+		7B49793E1BA16AD4003242AC /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
+		7B49793F1BA16AD4003242AC /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
 		7BE295381BA031A7006056C2 /* MusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BE2953C1BA031A7006056C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7BE2953E1BA031A7006056C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -78,9 +118,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B4979211BA1643C003242AC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B4979221BA16452003242AC /* Music.h */,
+				7B4979231BA16452003242AC /* Music.m */,
+				7B4979251BA164A1003242AC /* MusicList.h */,
+				7B4979261BA164A1003242AC /* MusicList.m */,
+			);
+			name = Model;
+			path = MusicApp/Model;
+			sourceTree = "<group>";
+		};
+		7B4979281BA16AD4003242AC /* MJExtension */ = {
+			isa = PBXGroup;
+			children = (
+				7B4979291BA16AD4003242AC /* MJDictionaryCache.h */,
+				7B49792A1BA16AD4003242AC /* MJDictionaryCache.m */,
+				7B49792B1BA16AD4003242AC /* MJExtension.h */,
+				7B49792C1BA16AD4003242AC /* MJExtensionConst.h */,
+				7B49792D1BA16AD4003242AC /* MJExtensionConst.m */,
+				7B49792E1BA16AD4003242AC /* MJFoundation.h */,
+				7B49792F1BA16AD4003242AC /* MJFoundation.m */,
+				7B4979301BA16AD4003242AC /* MJProperty.h */,
+				7B4979311BA16AD4003242AC /* MJProperty.m */,
+				7B4979321BA16AD4003242AC /* MJPropertyKey.h */,
+				7B4979331BA16AD4003242AC /* MJPropertyKey.m */,
+				7B4979341BA16AD4003242AC /* MJPropertyType.h */,
+				7B4979351BA16AD4003242AC /* MJPropertyType.m */,
+				7B4979361BA16AD4003242AC /* NSObject+MJClass.h */,
+				7B4979371BA16AD4003242AC /* NSObject+MJClass.m */,
+				7B4979381BA16AD4003242AC /* NSObject+MJCoding.h */,
+				7B4979391BA16AD4003242AC /* NSObject+MJCoding.m */,
+				7B49793A1BA16AD4003242AC /* NSObject+MJKeyValue.h */,
+				7B49793B1BA16AD4003242AC /* NSObject+MJKeyValue.m */,
+				7B49793C1BA16AD4003242AC /* NSObject+MJProperty.h */,
+				7B49793D1BA16AD4003242AC /* NSObject+MJProperty.m */,
+				7B49793E1BA16AD4003242AC /* NSString+MJExtension.h */,
+				7B49793F1BA16AD4003242AC /* NSString+MJExtension.m */,
+			);
+			path = MJExtension;
+			sourceTree = "<group>";
+		};
 		7BE2952F1BA031A7006056C2 = {
 			isa = PBXGroup;
 			children = (
+				7B4979281BA16AD4003242AC /* MJExtension */,
+				7B4979211BA1643C003242AC /* Model */,
 				7BE2953A1BA031A7006056C2 /* MusicApp */,
 				7BE295541BA031A7006056C2 /* MusicAppTests */,
 				7BE2955F1BA031A7006056C2 /* MusicAppUITests */,
@@ -275,7 +359,20 @@
 			files = (
 				7BE295431BA031A7006056C2 /* ViewController.m in Sources */,
 				7BE295401BA031A7006056C2 /* AppDelegate.m in Sources */,
+				7B4979411BA16AD4003242AC /* MJExtensionConst.m in Sources */,
 				7BE2953D1BA031A7006056C2 /* main.m in Sources */,
+				7B4979431BA16AD4003242AC /* MJProperty.m in Sources */,
+				7B4979451BA16AD4003242AC /* MJPropertyType.m in Sources */,
+				7B4979241BA16452003242AC /* Music.m in Sources */,
+				7B4979491BA16AD4003242AC /* NSObject+MJProperty.m in Sources */,
+				7B49794A1BA16AD4003242AC /* NSString+MJExtension.m in Sources */,
+				7B4979471BA16AD4003242AC /* NSObject+MJCoding.m in Sources */,
+				7B4979271BA164A1003242AC /* MusicList.m in Sources */,
+				7B4979441BA16AD4003242AC /* MJPropertyKey.m in Sources */,
+				7B4979481BA16AD4003242AC /* NSObject+MJKeyValue.m in Sources */,
+				7B4979461BA16AD4003242AC /* NSObject+MJClass.m in Sources */,
+				7B4979401BA16AD4003242AC /* MJDictionaryCache.m in Sources */,
+				7B4979421BA16AD4003242AC /* MJFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +512,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MusicApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinaapp.scaumiao.1.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -426,6 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MusicApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinaapp.scaumiao.1.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -499,6 +598,7 @@
 				7BE295671BA031A7006056C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BE295681BA031A7006056C2 /* Build configuration list for PBXNativeTarget "MusicAppTests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +607,7 @@
 				7BE2956A1BA031A7006056C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BE2956B1BA031A7006056C2 /* Build configuration list for PBXNativeTarget "MusicAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +616,7 @@
 				7BE2956D1BA031A7006056C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
