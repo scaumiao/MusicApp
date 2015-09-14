@@ -67,7 +67,7 @@
     [self request: httpUrl withHttpArg: httpArg];
     
     MusicList *musicList = [MusicList objectWithKeyValues:_searchDic];
-   0NSLog(@"albumName=%@",musicList.albumName);
+   NSLog(@"albumName=%@",musicList.albumName);
    // NSLog(@"%@",_searchDic);
     
 }

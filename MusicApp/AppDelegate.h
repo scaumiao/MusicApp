@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FirstTBViewController.h"
+#import "BaseTabBarController.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

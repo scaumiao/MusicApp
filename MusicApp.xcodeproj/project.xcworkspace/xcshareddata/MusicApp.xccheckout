@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>727F23CA-61E6-4B8E-B0E3-E52B792CA4E6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MusicApp</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C19C053E490E2C6029994F7D6A6F5CFA46653326</key>
+		<string>https://github.com/scaumiao/MusicApp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MusicApp.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C19C053E490E2C6029994F7D6A6F5CFA46653326</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/scaumiao/MusicApp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C19C053E490E2C6029994F7D6A6F5CFA46653326</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C19C053E490E2C6029994F7D6A6F5CFA46653326</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MusicApp</string>
+		</dict>
+	</array>
+</dict>
+</plist>
