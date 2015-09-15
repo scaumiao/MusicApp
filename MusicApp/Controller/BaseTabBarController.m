@@ -40,7 +40,7 @@
 {
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
     NSInteger a = tabBarController.selectedIndex;
-    NSLog(@"a = %ld",a);
+    NSLog(@"a = %ld",(long)a);
     _imageView1.frame = CGRectMake(a* w/4, 0, w/4, 49);
     
 }

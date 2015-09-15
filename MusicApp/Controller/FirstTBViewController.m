@@ -8,8 +8,16 @@
 
 #import "FirstTBViewController.h"
 
-@interface FirstTBViewController ()<UISearchBarDelegate,UISearchResultsUpdating>
+NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 
+
+@interface FirstTBViewController ()<UISearchBarDelegate,UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
+{
+    NSInteger currentPage;//当前页
+    NSMutableArray *dataList;
+    NSMutableArray *dataMusicList;//模型数组
+    HttpSearchUtil *httpSearchUtil;
+}
 @end
 
 @implementation FirstTBViewController
@@ -17,9 +25,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _firstTBView = [[FirstTBView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width , self.view.frame.size.height)];
-    _firstTBView.backgroundColor = [UIColor greenColor];
-    [self.view addSubview:_firstTBView];
+    //为部分变量分配空间
+    currentPage = 1;
+    dataList = [[NSMutableArray alloc] init];
+    dataMusicList = [[NSMutableArray alloc] init];
+    httpSearchUtil = [[HttpSearchUtil alloc]init];
+    
+//    _firstTBView = [[FirstTBView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width , self.view.frame.size.height)];
+//    _firstTBView.backgroundColor = [UIColor greenColor];
+//    [self.view addSubview:_firstTBView];
     
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(selectLeftAction:)];
@@ -36,8 +50,9 @@
     _searchBar.delegate = self;
     [_searchBar setTintColor:[UIColor redColor]];
     [_searchBar setPlaceholder:@"搜索音乐、歌词、电台"];
-    _searchBar.backgroundColor = [UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
-    
+    //_searchBar.backgroundColor = [UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
+    //实体机的颜色
+    _searchBar.backgroundColor = [UIColor colorWithRed:211/255.0 green:58/255.0 blue:49/255.0 alpha:1.0f];
     _searchBar.backgroundImage = [self imageWithColor:[UIColor clearColor] size:_searchBar.bounds.size];
     
     
@@ -51,8 +66,24 @@
     self.navigationItem.titleView.backgroundColor = [UIColor whiteColor];
     
     
+    //键盘隐藏
+    [_searchBar endEditing:NO];
+    [self setUpForDismissKeyboard];
     
     
+    //添加tableview
+
+    CGFloat tableViewHeight = self.view.frame.size.height - self.parentViewController.tabBarController.tabBar.frame.size.height ;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,tableViewHeight) style:UITableViewStylePlain];
+  //  _tableView.backgroundColor = [UIColor blueColor];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+    
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    
+    //隐藏多余线条
+    [_tableView setTableFooterView:[[UIView alloc] init]];
     //self.title = @"发现音乐";
    
     
@@ -76,9 +107,13 @@
     
     [self.view addSubview:_searchBar];
      */
-    [_searchBar endEditing:NO];
+
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
     
-     [self setUpForDismissKeyboard];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -174,7 +209,124 @@
 
 - (void)tapAnywhereToDismissKeyboard:(UIGestureRecognizer *)gestureRecognizer {
     //此method会将self.view里所有的subview的first responder都resign掉
+    _searchBar.text = @"";
+    //[_searchBar setPlaceholder:@"搜索音乐、歌词、电台"];
+    [dataMusicList removeAllObjects];
+    [_tableView reloadData];
     [_searchBar endEditing:YES];
+   
+}
+
+
+
+#pragma mark - searchBar协议
+#pragma mark 搜索
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+   [_searchBar endEditing:YES];
+}
+
+#pragma mark 开始搜索
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    currentPage = 1;
+   
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+       
+        NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",searchBar.text,currentPage];
+        NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *totalDic = [httpSearchUtil request: httpUrl withHttpArg: httpArg];
+        if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
+            //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
+            NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
+            NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
+            [dataMusicList removeAllObjects];
+            for (id a in array) {
+                [dataMusicList addObject:a];
+            }
+        }
+        
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [self.tableView footerEndRefreshing];
+    });
+
+    
+}
+
+
+#pragma mark - UITableView协议
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [dataMusicList count];
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //重定位符
+    static NSString * str = @"cell";
+    //取出队列中的cell
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:str];
+    //如果cell为null ，则创建新的cell
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+    }
+    //cell.textLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"songName"];
+    MusicList *musicList = [dataMusicList objectAtIndex:indexPath.row];
+    cell.textLabel.text = musicList.albumName;
+    return cell;
+}
+
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"test");
+    
+}
+
+#pragma mark - 下拉加载
+- (void)footerRereshing
+{
+    NSLog(@"下拉加载测试");
+    
+    currentPage++;
+    
+    
+    [self getRequestByText:_searchBar.text];
+    
+    // 2.2秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [self.tableView footerEndRefreshing];
+    });
+}
+
+#pragma mark - 封装服务器请求
+-(void)getRequestByText:(NSString *)text
+{
+
+
+    NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",text,currentPage];
+    NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *totalDic = [httpSearchUtil request: httpUrl withHttpArg: httpArg];
+    if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
+        //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
+        NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
+        NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
+        for (id a in array) {
+            [dataMusicList addObject:a];
+        }
+    }
+    
+    
 }
 
 @end

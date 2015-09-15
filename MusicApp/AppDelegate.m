@@ -38,7 +38,7 @@
         //b.创建子控制器
         FirstTBViewController *c1=[[FirstTBViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c1];
-        
+    
         c1.tabBarItem.title=@"发现音乐";
         c1.tabBarItem.image=[UIImage imageNamed:@"main_index01.png"];
        

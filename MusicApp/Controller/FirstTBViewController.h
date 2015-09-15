@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "FirstTBView.h"
-
+#import "HttpSearchUtil.h"
+#import "MJRefresh.h"
+#import "MusicList.h"
 @interface FirstTBViewController : UIViewController
 
 @property(strong,nonatomic)FirstTBView *firstTBView;
@@ -17,5 +19,8 @@
 @property (nonatomic, strong) UISearchController *searchController;
 
 @property(nonatomic,strong)UISearchBar *searchBar;
+
+//暂时在这里设置view
+@property(nonatomic,strong)UITableView *tableView;
 
 @end

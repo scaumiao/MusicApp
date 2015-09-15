@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B1B41241BA6CC1500B6D9C1 /* HttpSearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */; };
+		7B1B41271BA6D06E00B6D9C1 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41261BA6D06E00B6D9C1 /* SearchTableView.m */; };
+		7B1B412B1BA70F1A00B6D9C1 /* MusicAppLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1B412A1BA70F1A00B6D9C1 /* MusicAppLogo.png */; };
+		7B1B41581BA7F59700B6D9C1 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B1B41481BA7F59700B6D9C1 /* MJRefresh.bundle */; };
+		7B1B41591BA7F59700B6D9C1 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B414B1BA7F59700B6D9C1 /* MJRefreshBaseView.m */; };
+		7B1B415A1BA7F59700B6D9C1 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B414D1BA7F59700B6D9C1 /* MJRefreshConst.m */; };
+		7B1B415B1BA7F59700B6D9C1 /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B414F1BA7F59700B6D9C1 /* MJRefreshFooterView.m */; };
+		7B1B415C1BA7F59700B6D9C1 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41511BA7F59700B6D9C1 /* MJRefreshHeaderView.m */; };
+		7B1B415D1BA7F59700B6D9C1 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41531BA7F59700B6D9C1 /* UIScrollView+MJExtension.m */; };
+		7B1B415E1BA7F59700B6D9C1 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41551BA7F59700B6D9C1 /* UIScrollView+MJRefresh.m */; };
+		7B1B415F1BA7F59700B6D9C1 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41571BA7F59700B6D9C1 /* UIView+MJExtension.m */; };
 		7B4979241BA16452003242AC /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979231BA16452003242AC /* Music.m */; };
 		7B4979271BA164A1003242AC /* MusicList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4979261BA164A1003242AC /* MusicList.m */; };
 		7B4979401BA16AD4003242AC /* MJDictionaryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B49792A1BA16AD4003242AC /* MJDictionaryCache.m */; };
@@ -57,6 +68,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B1B41221BA6CC1500B6D9C1 /* HttpSearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpSearchUtil.h; sourceTree = "<group>"; };
+		7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpSearchUtil.m; sourceTree = "<group>"; };
+		7B1B41251BA6D06E00B6D9C1 /* SearchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableView.h; sourceTree = "<group>"; };
+		7B1B41261BA6D06E00B6D9C1 /* SearchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableView.m; sourceTree = "<group>"; };
+		7B1B412A1BA70F1A00B6D9C1 /* MusicAppLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MusicAppLogo.png; sourceTree = "<group>"; };
+		7B1B41481BA7F59700B6D9C1 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
+		7B1B41491BA7F59700B6D9C1 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
+		7B1B414A1BA7F59700B6D9C1 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
+		7B1B414B1BA7F59700B6D9C1 /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
+		7B1B414C1BA7F59700B6D9C1 /* MJRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshConst.h; sourceTree = "<group>"; };
+		7B1B414D1BA7F59700B6D9C1 /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
+		7B1B414E1BA7F59700B6D9C1 /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
+		7B1B414F1BA7F59700B6D9C1 /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
+		7B1B41501BA7F59700B6D9C1 /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
+		7B1B41511BA7F59700B6D9C1 /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		7B1B41521BA7F59700B6D9C1 /* UIScrollView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJExtension.h"; sourceTree = "<group>"; };
+		7B1B41531BA7F59700B6D9C1 /* UIScrollView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJExtension.m"; sourceTree = "<group>"; };
+		7B1B41541BA7F59700B6D9C1 /* UIScrollView+MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJRefresh.h"; sourceTree = "<group>"; };
+		7B1B41551BA7F59700B6D9C1 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
+		7B1B41561BA7F59700B6D9C1 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
+		7B1B41571BA7F59700B6D9C1 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		7B4979221BA16452003242AC /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
 		7B4979231BA16452003242AC /* Music.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Music.m; sourceTree = "<group>"; };
 		7B4979251BA164A1003242AC /* MusicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicList.h; sourceTree = "<group>"; };
@@ -139,6 +171,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1B41211BA6CBF400B6D9C1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				7B1B41221BA6CC1500B6D9C1 /* HttpSearchUtil.h */,
+				7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		7B1B41471BA7F59700B6D9C1 /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				7B1B41481BA7F59700B6D9C1 /* MJRefresh.bundle */,
+				7B1B41491BA7F59700B6D9C1 /* MJRefresh.h */,
+				7B1B414A1BA7F59700B6D9C1 /* MJRefreshBaseView.h */,
+				7B1B414B1BA7F59700B6D9C1 /* MJRefreshBaseView.m */,
+				7B1B414C1BA7F59700B6D9C1 /* MJRefreshConst.h */,
+				7B1B414D1BA7F59700B6D9C1 /* MJRefreshConst.m */,
+				7B1B414E1BA7F59700B6D9C1 /* MJRefreshFooterView.h */,
+				7B1B414F1BA7F59700B6D9C1 /* MJRefreshFooterView.m */,
+				7B1B41501BA7F59700B6D9C1 /* MJRefreshHeaderView.h */,
+				7B1B41511BA7F59700B6D9C1 /* MJRefreshHeaderView.m */,
+				7B1B41521BA7F59700B6D9C1 /* UIScrollView+MJExtension.h */,
+				7B1B41531BA7F59700B6D9C1 /* UIScrollView+MJExtension.m */,
+				7B1B41541BA7F59700B6D9C1 /* UIScrollView+MJRefresh.h */,
+				7B1B41551BA7F59700B6D9C1 /* UIScrollView+MJRefresh.m */,
+				7B1B41561BA7F59700B6D9C1 /* UIView+MJExtension.h */,
+				7B1B41571BA7F59700B6D9C1 /* UIView+MJExtension.m */,
+			);
+			path = MJRefresh;
+			sourceTree = "<group>";
+		};
 		7B4979211BA1643C003242AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +247,7 @@
 		7B9342D61BA53F2D0073BDD8 /* Img */ = {
 			isa = PBXGroup;
 			children = (
+				7B1B412A1BA70F1A00B6D9C1 /* MusicAppLogo.png */,
 				7B9342E81BA54E2A0073BDD8 /* tabBar.png */,
 				7B9342E91BA54E2A0073BDD8 /* navBar.png */,
 				7B9342DF1BA549E40073BDD8 /* tabBarbg.png */,
@@ -211,6 +276,8 @@
 			children = (
 				7B9342F41BA566FB0073BDD8 /* FirstTBView.h */,
 				7B9342F51BA566FB0073BDD8 /* FirstTBView.m */,
+				7B1B41251BA6D06E00B6D9C1 /* SearchTableView.h */,
+				7B1B41261BA6D06E00B6D9C1 /* SearchTableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,6 +285,7 @@
 		7BE2952F1BA031A7006056C2 = {
 			isa = PBXGroup;
 			children = (
+				7B1B41471BA7F59700B6D9C1 /* MJRefresh */,
 				7B9342D61BA53F2D0073BDD8 /* Img */,
 				7B4979281BA16AD4003242AC /* MJExtension */,
 				7BE2953A1BA031A7006056C2 /* MusicApp */,
@@ -240,6 +308,7 @@
 		7BE2953A1BA031A7006056C2 /* MusicApp */ = {
 			isa = PBXGroup;
 			children = (
+				7B1B41211BA6CBF400B6D9C1 /* Util */,
 				7B9342F31BA566D60073BDD8 /* View */,
 				7B4979211BA1643C003242AC /* Model */,
 				7B9342EC1BA566680073BDD8 /* Controller */,
@@ -394,6 +463,8 @@
 				7B9342EB1BA54E2A0073BDD8 /* navBar.png in Resources */,
 				7B9342DD1BA542BA0073BDD8 /* main_index03.png in Resources */,
 				7B9342E01BA549E40073BDD8 /* tabBarbg.png in Resources */,
+				7B1B41581BA7F59700B6D9C1 /* MJRefresh.bundle in Resources */,
+				7B1B412B1BA70F1A00B6D9C1 /* MusicAppLogo.png in Resources */,
 				7B9342D81BA53F2D0073BDD8 /* main_index01.png in Resources */,
 				7B9342DE1BA542BA0073BDD8 /* main_index04.png in Resources */,
 			);
@@ -420,21 +491,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B1B415B1BA7F59700B6D9C1 /* MJRefreshFooterView.m in Sources */,
 				7BE295431BA031A7006056C2 /* ViewController.m in Sources */,
 				7B9342F21BA566680073BDD8 /* FirstTBViewController.m in Sources */,
+				7B1B415F1BA7F59700B6D9C1 /* UIView+MJExtension.m in Sources */,
 				7BE295401BA031A7006056C2 /* AppDelegate.m in Sources */,
 				7B4979411BA16AD4003242AC /* MJExtensionConst.m in Sources */,
+				7B1B415E1BA7F59700B6D9C1 /* UIScrollView+MJRefresh.m in Sources */,
 				7BE2953D1BA031A7006056C2 /* main.m in Sources */,
+				7B1B415C1BA7F59700B6D9C1 /* MJRefreshHeaderView.m in Sources */,
 				7B4979431BA16AD4003242AC /* MJProperty.m in Sources */,
+				7B1B41591BA7F59700B6D9C1 /* MJRefreshBaseView.m in Sources */,
+				7B1B415A1BA7F59700B6D9C1 /* MJRefreshConst.m in Sources */,
 				7B4979451BA16AD4003242AC /* MJPropertyType.m in Sources */,
 				7B4979241BA16452003242AC /* Music.m in Sources */,
 				7B4979491BA16AD4003242AC /* NSObject+MJProperty.m in Sources */,
 				7B49794A1BA16AD4003242AC /* NSString+MJExtension.m in Sources */,
+				7B1B415D1BA7F59700B6D9C1 /* UIScrollView+MJExtension.m in Sources */,
 				7B9342F11BA566680073BDD8 /* BaseTabBarController.m in Sources */,
 				7B4979471BA16AD4003242AC /* NSObject+MJCoding.m in Sources */,
 				7B9342F61BA566FB0073BDD8 /* FirstTBView.m in Sources */,
 				7B4979271BA164A1003242AC /* MusicList.m in Sources */,
+				7B1B41271BA6D06E00B6D9C1 /* SearchTableView.m in Sources */,
 				7B4979441BA16AD4003242AC /* MJPropertyKey.m in Sources */,
+				7B1B41241BA6CC1500B6D9C1 /* HttpSearchUtil.m in Sources */,
 				7B4979481BA16AD4003242AC /* NSObject+MJKeyValue.m in Sources */,
 				7B4979461BA16AD4003242AC /* NSObject+MJClass.m in Sources */,
 				7B4979401BA16AD4003242AC /* MJDictionaryCache.m in Sources */,
@@ -569,8 +649,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				INFOPLIST_FILE = MusicApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinaapp.scaumiao.1.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -581,8 +663,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				INFOPLIST_FILE = MusicApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinaapp.scaumiao.1.MusicApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
