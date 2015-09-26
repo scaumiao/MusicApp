@@ -8,9 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HttpSearchUtil : NSObject
+@interface HttpSearchUtil : NSObject <NSURLConnectionDelegate>
+
+
+//接收从服务器返回数据。
+
+@property (strong,nonatomic) NSMutableData *datas;
 
 
 -(NSDictionary *)request: (NSString*)httpUrl withHttpArg: (NSString*)HttpArg;
+
+
+
 
 @end

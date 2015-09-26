@@ -203,6 +203,14 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
+		7B22614F1BAFAA9F004CAE24 /* MusicListCellView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MusicListCellView;
+			path = MusicCellView;
+			sourceTree = "<group>";
+		};
 		7B4979211BA1643C003242AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +282,7 @@
 		7B9342F31BA566D60073BDD8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7B22614F1BAFAA9F004CAE24 /* MusicListCellView */,
 				7B9342F41BA566FB0073BDD8 /* FirstTBView.h */,
 				7B9342F51BA566FB0073BDD8 /* FirstTBView.m */,
 				7B1B41251BA6D06E00B6D9C1 /* SearchTableView.h */,

@@ -25,6 +25,13 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    //并行操作测试
+    
+    
+    
+    
+    
     //为部分变量分配空间
     currentPage = 1;
     dataList = [[NSMutableArray alloc] init];
@@ -244,6 +251,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
             for (id a in array) {
                 [dataMusicList addObject:a];
             }
+            
         }
         
         
@@ -251,11 +259,13 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         [self.tableView reloadData];
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [self.tableView footerEndRefreshing];
+        //[self.tableView footerEndRefreshing];
     });
 
     
 }
+
+
 
 
 #pragma mark - UITableView协议
