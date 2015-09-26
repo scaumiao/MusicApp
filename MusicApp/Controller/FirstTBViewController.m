@@ -36,7 +36,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     currentPage = 1;
     dataList = [[NSMutableArray alloc] init];
     dataMusicList = [[NSMutableArray alloc] init];
-    httpSearchUtil = [[HttpSearchUtil alloc]init];
+
     
 //    _firstTBView = [[FirstTBView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width , self.view.frame.size.height)];
 //    _firstTBView.backgroundColor = [UIColor greenColor];
@@ -238,28 +238,40 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 {
     currentPage = 1;
    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+   
        
         NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",searchBar.text,currentPage];
         NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *totalDic = [httpSearchUtil request: httpUrl withHttpArg: httpArg];
-        if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
-            //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
-            NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
-            NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
-            [dataMusicList removeAllObjects];
-            for (id a in array) {
-                [dataMusicList addObject:a];
+        NSString *urlStr = [[NSString alloc]initWithFormat: @"%@?%@", httpUrl, httpArg];
+        //[httpSearchUtil request: httpUrl withHttpArg: httpArg];
+    
+    
+        
+
+        
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        
+        
+        [HttpSearchUtil httpNsynchronousRequestUrl:urlStr finshedBlock:^(NSDictionary *totalDic){
+            
+            if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
+                //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
+                NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
+                NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
+                [dataMusicList removeAllObjects];
+                for (id a in array) {
+                    [dataMusicList addObject:a];
+                }
+                
             }
             
-        }
-        
-        
-        // 刷新表格
-        [self.tableView reloadData];
-        
-        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        //[self.tableView footerEndRefreshing];
+            NSLog(@"%@",dataMusicList);
+            
+            // 刷新表格
+            [self.tableView reloadData];
+        }];
+
     });
 
     
@@ -320,21 +332,29 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 }
 
 #pragma mark - 封装服务器请求
+
 -(void)getRequestByText:(NSString *)text
 {
 
 
     NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",text,currentPage];
     NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *totalDic = [httpSearchUtil request: httpUrl withHttpArg: httpArg];
-    if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
-        //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
-        NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
-        NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
-        for (id a in array) {
-            [dataMusicList addObject:a];
+    NSString *urlStr = [[NSString alloc]initWithFormat: @"%@?%@", httpUrl, httpArg];
+
+    [HttpSearchUtil httpNsynchronousRequestUrl:urlStr finshedBlock:^(NSDictionary *totalDic){
+        
+        if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
+            //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
+            NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
+            NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
+           
+            for (id a in array) {
+                [dataMusicList addObject:a];
+            }
+            
         }
-    }
+
+    }];
     
     
 }

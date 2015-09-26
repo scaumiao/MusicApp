@@ -10,9 +10,11 @@
 #define apikey @"10c7516e0e5add013a854f3fc55fb3d8"//调用音乐搜索api的key
 
 @implementation HttpSearchUtil
-{
-    NSMutableDictionary* dict;
-}
+//{
+//    NSMutableDictionary* dict;
+//}
+@synthesize dict;
+
 
 
 - (instancetype)init
@@ -45,7 +47,8 @@
         _datas = [NSMutableData new];
         
     }
-    
+    //NSLog(@"%@",_datas);
+    //NSLog(@"%@",url);
 //    NSDictionary *totalDic;
     
 //    @try {
@@ -61,7 +64,7 @@
 //        
 //    }
     
-    
+    //NSLog(@"%@",dict);
     return dict;
 
     //_searchDic = [[array objectAtIndex:0] copy];
@@ -105,11 +108,31 @@
             
                                            options:NSJSONReadingMutableLeaves error:nil];
     
-    NSLog(@"%@",dict);
-    
+   
+   self.finishBlock(dict);
 }
 
 
+#pragma mark 添加Block版本
++(void) httpNsynchronousRequestUrl:(NSString*) spec  finshedBlock:(FinishBlock)block
+{
+    HttpSearchUtil *http = [[HttpSearchUtil alloc]init];
+    http.finishBlock = block;
+    //初始HTTP
+    
+    NSURL *url = [NSURL URLWithString:spec];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url cachePolicy: NSURLRequestReturnCacheDataElseLoad timeoutInterval: 10];
+    
+    [request setHTTPMethod: @"GET"];
+    [request addValue: apikey forHTTPHeaderField: @"apikey"];
+    
+    
+    
+    //连接
+    NSURLConnection *con = [[NSURLConnection alloc]initWithRequest:request delegate:http];
+    NSLog(con ? @"连接创建成功" : @"连接创建失败");
+}
 
 
 

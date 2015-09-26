@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+// 相当于定义一个函数指针
+typedef void (^FinishBlock)(NSDictionary *dataString);
+
+
 @interface HttpSearchUtil : NSObject <NSURLConnectionDelegate>
 
 
@@ -15,10 +19,16 @@
 
 @property (strong,nonatomic) NSMutableData *datas;
 
+@property (strong, nonatomic) FinishBlock finishBlock;//回调方法
 
--(NSDictionary *)request: (NSString*)httpUrl withHttpArg: (NSString*)HttpArg;
+//-(NSDictionary *)request: (NSString*)httpUrl withHttpArg: (NSString*)HttpArg;
+
+
+@property (strong,nonatomic) NSMutableDictionary* dict;
 
 
 
+
++(void)httpNsynchronousRequestUrl:(NSString*) spec  finshedBlock:(FinishBlock)block;
 
 @end
