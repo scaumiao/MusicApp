@@ -11,6 +11,7 @@
 #import "HttpSearchUtil.h"
 #import "MJRefresh.h"
 #import "MusicList.h"
+#import "MusicListCell.h"
 @interface FirstTBViewController : UIViewController
 
 @property(strong,nonatomic)FirstTBView *firstTBView;
@@ -22,5 +23,9 @@
 
 //暂时在这里设置view
 @property(nonatomic,strong)UITableView *tableView;
+
+
+//放置自定义cell的frame
+@property (nonatomic, strong) NSMutableArray *statusFrames;
 
 @end

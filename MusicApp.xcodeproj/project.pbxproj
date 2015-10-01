@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B1A3F941BBB854600699094 /* MusicListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A3F911BBB854600699094 /* MusicListCell.m */; };
+		7B1A3F951BBB854600699094 /* MusicListFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A3F931BBB854600699094 /* MusicListFrame.m */; };
 		7B1B41241BA6CC1500B6D9C1 /* HttpSearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */; };
 		7B1B41271BA6D06E00B6D9C1 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B41261BA6D06E00B6D9C1 /* SearchTableView.m */; };
 		7B1B412B1BA70F1A00B6D9C1 /* MusicAppLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1B412A1BA70F1A00B6D9C1 /* MusicAppLogo.png */; };
@@ -68,6 +70,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B1A3F901BBB854600699094 /* MusicListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicListCell.h; sourceTree = "<group>"; };
+		7B1A3F911BBB854600699094 /* MusicListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicListCell.m; sourceTree = "<group>"; };
+		7B1A3F921BBB854600699094 /* MusicListFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicListFrame.h; sourceTree = "<group>"; };
+		7B1A3F931BBB854600699094 /* MusicListFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicListFrame.m; sourceTree = "<group>"; };
 		7B1B41221BA6CC1500B6D9C1 /* HttpSearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpSearchUtil.h; sourceTree = "<group>"; };
 		7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpSearchUtil.m; sourceTree = "<group>"; };
 		7B1B41251BA6D06E00B6D9C1 /* SearchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableView.h; sourceTree = "<group>"; };
@@ -171,6 +177,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1A3F8F1BBB854600699094 /* MusicListCellView */ = {
+			isa = PBXGroup;
+			children = (
+				7B1A3F901BBB854600699094 /* MusicListCell.h */,
+				7B1A3F911BBB854600699094 /* MusicListCell.m */,
+				7B1A3F921BBB854600699094 /* MusicListFrame.h */,
+				7B1A3F931BBB854600699094 /* MusicListFrame.m */,
+			);
+			path = MusicListCellView;
+			sourceTree = "<group>";
+		};
 		7B1B41211BA6CBF400B6D9C1 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,14 +218,6 @@
 				7B1B41571BA7F59700B6D9C1 /* UIView+MJExtension.m */,
 			);
 			path = MJRefresh;
-			sourceTree = "<group>";
-		};
-		7B22614F1BAFAA9F004CAE24 /* MusicListCellView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = MusicListCellView;
-			path = MusicCellView;
 			sourceTree = "<group>";
 		};
 		7B4979211BA1643C003242AC /* Model */ = {
@@ -282,7 +291,7 @@
 		7B9342F31BA566D60073BDD8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7B22614F1BAFAA9F004CAE24 /* MusicListCellView */,
+				7B1A3F8F1BBB854600699094 /* MusicListCellView */,
 				7B9342F41BA566FB0073BDD8 /* FirstTBView.h */,
 				7B9342F51BA566FB0073BDD8 /* FirstTBView.m */,
 				7B1B41251BA6D06E00B6D9C1 /* SearchTableView.h */,
@@ -517,9 +526,11 @@
 				7B4979491BA16AD4003242AC /* NSObject+MJProperty.m in Sources */,
 				7B49794A1BA16AD4003242AC /* NSString+MJExtension.m in Sources */,
 				7B1B415D1BA7F59700B6D9C1 /* UIScrollView+MJExtension.m in Sources */,
+				7B1A3F941BBB854600699094 /* MusicListCell.m in Sources */,
 				7B9342F11BA566680073BDD8 /* BaseTabBarController.m in Sources */,
 				7B4979471BA16AD4003242AC /* NSObject+MJCoding.m in Sources */,
 				7B9342F61BA566FB0073BDD8 /* FirstTBView.m in Sources */,
+				7B1A3F951BBB854600699094 /* MusicListFrame.m in Sources */,
 				7B4979271BA164A1003242AC /* MusicList.m in Sources */,
 				7B1B41271BA6D06E00B6D9C1 /* SearchTableView.m in Sources */,
 				7B4979441BA16AD4003242AC /* MJPropertyKey.m in Sources */,

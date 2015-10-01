@@ -17,6 +17,8 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     NSMutableArray *dataList;
     NSMutableArray *dataMusicList;//模型数组
     HttpSearchUtil *httpSearchUtil;
+
+    int note;//标示为那种tableview
 }
 @end
 
@@ -26,6 +28,8 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     [super viewDidLoad];
     
     
+    
+    note = 0;
     //并行操作测试
     
     
@@ -230,7 +234,32 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 #pragma mark 搜索
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-   [_searchBar endEditing:YES];
+    [self endSearch];
+}
+
+
+#pragma mark 结束搜索
+-(void)endSearch
+{
+    [_searchBar endEditing:YES];
+    note = 1;
+    
+    
+    NSMutableArray *models = [NSMutableArray arrayWithCapacity:dataMusicList.count];
+    
+    for (MusicList *musicList in dataMusicList) {
+        // MusicList *musicList = [MusicList musicListWithDict:dict];
+        MusicListFrame *musicListF = [[MusicListFrame alloc] init];
+        musicListF.musicList = musicList;
+        //  NSLog(@"%f",musicListF.songNameF.size.width);
+        
+        [models addObject:musicListF];
+        
+    }
+    self.statusFrames = [models copy];
+    
+    [_tableView reloadData];
+    
 }
 
 #pragma mark 开始搜索
@@ -238,6 +267,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 {
     currentPage = 1;
    
+     note = 0;
    
        
         NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",searchBar.text,currentPage];
@@ -245,14 +275,6 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         NSString *urlStr = [[NSString alloc]initWithFormat: @"%@?%@", httpUrl, httpArg];
         //[httpSearchUtil request: httpUrl withHttpArg: httpArg];
     
-    
-        
-
-        
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        
-        
         [HttpSearchUtil httpNsynchronousRequestUrl:urlStr finshedBlock:^(NSDictionary *totalDic){
             
             if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
@@ -272,7 +294,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
             [self.tableView reloadData];
         }];
 
-    });
+    
 
     
 }
@@ -283,31 +305,63 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 #pragma mark - UITableView协议
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [dataMusicList count];
+    if (note == 0)
+        return [dataMusicList count];
+    else
+        return [_statusFrames count];
 }
 
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //重定位符
-    static NSString * str = @"cell";
-    //取出队列中的cell
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:str];
-    //如果cell为null ，则创建新的cell
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+    if (note == 0) {
+        //重定位符
+        static NSString * str = @"cell";
+        //取出队列中的cell
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:str];
+        //如果cell为null ，则创建新的cell
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+        }
+        //cell.textLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"songName"];
+        MusicList *musicList = [dataMusicList objectAtIndex:indexPath.row];
+        cell.textLabel.text = musicList.songName;
+        return cell;
     }
-    //cell.textLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"songName"];
-    MusicList *musicList = [dataMusicList objectAtIndex:indexPath.row];
-    cell.textLabel.text = musicList.albumName;
-    return cell;
+    else
+    {
+        
+        
+        MusicListCell *cell = [MusicListCell cellWithTableView:tableView];
+        // 3.设置数据
+        cell.musicListFrame = self.statusFrames[indexPath.row];
+        
+        return cell;
+    }
 }
 
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //NSLog(@"heightForRowAtIndexPath");
+    // 取出对应航的frame模型
+    if (note == 0) {
+        return 30;
+    }
+    
+    else
+    {
+        MusicListFrame *musicListFrame = _statusFrames[indexPath.row];
+        return musicListFrame.cellHeight;
+        
+    }
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"test");
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    _searchBar.text =cell.textLabel.text;
+    
+    [self endSearch];
     
 }
 
@@ -321,10 +375,11 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     
     [self getRequestByText:_searchBar.text];
     
+   
     // 2.2秒后刷新表格UI
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // 刷新表格
-        [self.tableView reloadData];
+        
+        [self endSearch];
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
         [self.tableView footerEndRefreshing];
