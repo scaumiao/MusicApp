@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MusicListFrame.h"
-@class  MusicList;
+#import "MusicListTool.h"
+@class MusicData;
 
 @interface MusicListCell: UITableViewCell
 
@@ -27,7 +28,12 @@
  */
 @property (nonatomic, weak ) UILabel         *albumNameLabelView;
 
+@property(nonatomic,strong)UILabel *moreLabelView;
 
+//@property(nonatomic,strong)UIButton *downloadButton;
+
+
+@property(nonatomic,strong)MusicListTool *moreView;
 
 +(instancetype)cellWithTableView:(UITableView *)tableView;
 

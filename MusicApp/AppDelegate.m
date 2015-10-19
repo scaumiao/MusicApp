@@ -44,16 +44,17 @@
        
         //c1.tabBarItem.badgeValue=@"123";
         
-        UIViewController *c2=[[UIViewController alloc]init];
-        c2.view.backgroundColor=[UIColor brownColor];
+        MyMusicTBViewController *c2=[[MyMusicTBViewController alloc]init];
+        UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:c2];
+        c2.view.backgroundColor=[UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
         c2.tabBarItem.title=@"我的音乐";
         c2.tabBarItem.image = [UIImage imageNamed:@"main_index02.png"];
         
         
         UIViewController *c3=[[UIViewController alloc]init];
         c3.tabBarItem.title=@"朋友";
-     
         c3.tabBarItem.image = [UIImage imageNamed:@"main_index03"];
+        
         UIViewController *c4=[[UIViewController alloc]init];
         c4.tabBarItem.title=@"账号";
         c4.tabBarItem.image=[UIImage imageNamed:@"main_index04"];
@@ -65,7 +66,7 @@
         //    [tb addChildViewController:c2];
         
         //c.2第二种方式
-        _rootTab.viewControllers=@[nav,c2,c3,c4];
+        _rootTab.viewControllers=@[nav,nav2,c3,c4];
         //_rootTab.tabBar.tintColor = [UIColor redColor];
         
         //设置tabbar背景颜色为黑色

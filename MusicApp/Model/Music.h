@@ -7,20 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MusicList.h"
-typedef enum {
-    SexMale,
-    SexFemale
-} Sex;
 
 @interface Music : NSObject
-@property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *icon;
-@property (assign, nonatomic) unsigned int age;
-@property (copy, nonatomic) NSString *height;
-@property (strong, nonatomic) NSNumber *money;
-@property (assign, nonatomic) Sex sex;
-@property (assign, nonatomic, getter=isGay) BOOL gay;
+
+
+//歌词、id、标题、图片、作者
+
+@property(strong,nonatomic)NSString *picUrl;
+@property(strong,nonatomic)NSString *mp3Url;
+@property(strong,nonatomic)NSString *lyric;
+
 @end
 
 

@@ -12,18 +12,18 @@
 
 @implementation MusicListFrame
 
--(void)setMusicList:(MusicList *)musicList
+-(void)setMusicData:(MusicData *)musicData
 
 {
     
-    _musicList = musicList;
+    _musicData = musicData;
     // 间隙
     CGFloat xPadding = 20;
     CGFloat yPadding = 10;
     // 设置歌名的frame
     CGFloat songViewX = xPadding;
     CGFloat songViewY = yPadding;
-    CGFloat songViewW = _musicList.songName.length * 14;
+    CGFloat songViewW = _musicData.trackname.length * 14;
     CGFloat songViewH = 14;
     self.songNameF = CGRectMake(songViewX, songViewY, songViewW, songViewH);
     
@@ -36,15 +36,15 @@
     //    CGSize userNameSize =  [self sizeWithString:_article.userName font:NJTextFont maxSize:CGSizeMake(300, MAXFLOAT)];
     CGFloat userNameViewH = 20;
     
-    CGFloat userNameViewW = _musicList.userName.length * 13;
+    CGFloat userNameViewW = _musicData.artistname.length * 13;
  
     self.userNameF = CGRectMake(userNameViewX, userNameViewY, userNameViewW, userNameViewH);
     
     //设置专辑名字的frame
-    if (self.musicList.albumName.length > 14) {
+    if (self.musicData.albumname.length > 14) {
         CGFloat albumNameViewX =  userNameViewX;
         CGFloat albumNameViewY = CGRectGetMaxY(self.userNameF);
-        CGSize albumNameSize =  [self sizeWithString:_musicList.albumName font:NJNameFont maxSize:CGSizeMake(280, MAXFLOAT)];
+        CGSize albumNameSize =  [self sizeWithString:_musicData.albumname font:NJNameFont maxSize:CGSizeMake(280, MAXFLOAT)];
         CGFloat albumNameViewW = albumNameSize.width;
         CGFloat albumNameViewH = albumNameSize.height;
         self.albumNameF = CGRectMake(albumNameViewX, albumNameViewY, albumNameViewW, albumNameViewH);
@@ -53,11 +53,19 @@
     {
         CGFloat albumNameViewX =  CGRectGetMaxX(self.userNameF) + yPadding;
         CGFloat albumNameViewY = userNameViewY ;
-        CGFloat albumNameViewW = _musicList.albumName.length * 13;
+        CGFloat albumNameViewW = _musicData.albumname.length * 13;
         CGFloat albumNameViewH = 20;
         self.albumNameF = CGRectMake(albumNameViewX, albumNameViewY, albumNameViewW, albumNameViewH);
     }
 
+    CGFloat moreViewX = 0;
+    CGFloat moreViewY = CGRectGetMaxY(_albumNameF) +10 ;
+    CGFloat moreViewH = 44;
+    CGFloat moreViewW = 320;
+    
+    self.moreF = CGRectMake(moreViewX, moreViewY, moreViewW, moreViewH);
+    
+    
     
     self.cellHeight = CGRectGetMaxY(self.albumNameF) + yPadding;
     

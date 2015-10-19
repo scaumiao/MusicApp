@@ -66,6 +66,12 @@
         [self.contentView addSubview:albumNameLabelView];
         self.albumNameLabelView = albumNameLabelView;
         
+        
+        //4.创建下拉菜单
+        MusicListTool *musicListTool = [[MusicListTool alloc] init];
+        self.moreView = musicListTool;
+        
+        
  /*
         // 4.创建作者
         UILabel *authorLabelView = [[UILabel alloc] init];
@@ -104,19 +110,19 @@
  */
 - (void)settingData
 {
-    MusicList *musicList = self.musicListFrame.musicList;
+    MusicData *musicData = self.musicListFrame.musicData;
     
     // 设置歌名
-    self.songNameLabelView.text = musicList.songName;
+    self.songNameLabelView.text = musicData.trackname;
  
     //设置作者
-    self.userNameLabelView.text = musicList.userName;
+    self.userNameLabelView.text = musicData.artistname;
     // 设置专辑名
-    self.albumNameLabelView.text = musicList.albumName;
+    self.albumNameLabelView.text = musicData.albumname;
+   
    
 
-    
-}
+    }
 /**
  *  设置子控件的frame
  */
@@ -139,9 +145,8 @@
     self.albumNameLabelView.frame = self.musicListFrame.albumNameF;
     
 
-    
-    
-    
+    self.moreView.frame = self.musicListFrame.moreF;
+    self.moreView.backgroundColor = [UIColor darkGrayColor];
 }
 
 /**

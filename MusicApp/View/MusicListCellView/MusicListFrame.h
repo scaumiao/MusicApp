@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MusicList.h"
-@class MusicList;
+#import "MusicData.h"
 
 @interface MusicListFrame : NSObject
 
@@ -19,13 +18,13 @@
 @property (nonatomic, assign) CGRect userNameF;
 @property (nonatomic, assign) CGRect albumNameF;
 
-
+@property(nonatomic,assign) CGRect moreF;
 
 /**
  *  行高
  */
 @property (nonatomic, assign) CGFloat  cellHeight;
-@property (nonatomic, strong) MusicList  *musicList;
+@property (nonatomic, strong) MusicData  *musicData;
 
 
 @end

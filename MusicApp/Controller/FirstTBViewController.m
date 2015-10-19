@@ -1,7 +1,7 @@
 //
 //  FirstTBViewController.m
 //  MusicApp
-//
+//  第一个界面，用来搜索歌曲
 //  Created by 许汝邈 on 15/9/13.
 //  Copyright © 2015年 miao. All rights reserved.
 //
@@ -15,10 +15,15 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 {
     NSInteger currentPage;//当前页
     NSMutableArray *dataList;
-    NSMutableArray *dataMusicList;//模型数组
-    HttpSearchUtil *httpSearchUtil;
+   // NSMutableArray *dataMusicList;//模型数组
+    NSMutableArray *musicDataList;
+   // HttpSearchUtil *httpSearchUtil;
 
     int note;//标示为那种tableview
+    
+    BOOL isSelect;
+    int selectNum;//记录上次选中的cell
+    MusicListCell *oldCell;
 }
 @end
 
@@ -32,25 +37,22 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     note = 0;
     //并行操作测试
     
-    
-    
+    isSelect = NO;
+    selectNum = -1;
     
     
     //为部分变量分配空间
     currentPage = 1;
     dataList = [[NSMutableArray alloc] init];
-    dataMusicList = [[NSMutableArray alloc] init];
+    musicDataList = [[NSMutableArray alloc] init];
 
     
-//    _firstTBView = [[FirstTBView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width , self.view.frame.size.height)];
-//    _firstTBView.backgroundColor = [UIColor greenColor];
-//    [self.view addSubview:_firstTBView];
-    
-    
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(selectLeftAction:)];
+//    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cm2_list_detail_icn_music_sm.png"] style:UIBarButtonItemStylePlain target:self action:@selector(selectLeftAction:)];
     self.navigationItem.leftBarButtonItem = leftButton;
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd  target:self action:@selector(selectRightAction:)];
     
+     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cm2_list_detail_icn_music_sm.png"] style:UIBarButtonItemStylePlain target:self action:@selector(selectRightAction:)];
+    //cm2_list_detail_icn_music_sm
     
     self.navigationItem.rightBarButtonItem = rightButton;
     self.navigationItem.leftBarButtonItem = leftButton;
@@ -61,9 +63,9 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     _searchBar.delegate = self;
     [_searchBar setTintColor:[UIColor redColor]];
     [_searchBar setPlaceholder:@"搜索音乐、歌词、电台"];
-    //_searchBar.backgroundColor = [UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
+    _searchBar.backgroundColor = [UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
     //实体机的颜色
-    _searchBar.backgroundColor = [UIColor colorWithRed:211/255.0 green:58/255.0 blue:49/255.0 alpha:1.0f];
+    //_searchBar.backgroundColor = [UIColor colorWithRed:211/255.0 green:58/255.0 blue:49/255.0 alpha:1.0f];
     _searchBar.backgroundImage = [self imageWithColor:[UIColor clearColor] size:_searchBar.bounds.size];
     
     
@@ -86,9 +88,10 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 
     CGFloat tableViewHeight = self.view.frame.size.height - self.parentViewController.tabBarController.tabBar.frame.size.height ;
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,tableViewHeight) style:UITableViewStylePlain];
-  //  _tableView.backgroundColor = [UIColor blueColor];
+
     _tableView.delegate = self;
     _tableView.dataSource = self;
+
     [self.view addSubview:_tableView];
     
     [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
@@ -122,10 +125,6 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 }
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -139,8 +138,17 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 }
 -(void)selectRightAction:(id)sender
 {
-    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"你点击了导航栏右按钮" delegate:self  cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alter show];
+  
+    if (_musicPlayerVC != nil) {
+  
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+        
+        
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+    
+ 
+
 }
 
 
@@ -222,7 +230,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     //此method会将self.view里所有的subview的first responder都resign掉
     _searchBar.text = @"";
     //[_searchBar setPlaceholder:@"搜索音乐、歌词、电台"];
-    [dataMusicList removeAllObjects];
+    [musicDataList removeAllObjects];
     [_tableView reloadData];
     [_searchBar endEditing:YES];
    
@@ -245,18 +253,20 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     note = 1;
     
     
-    NSMutableArray *models = [NSMutableArray arrayWithCapacity:dataMusicList.count];
+    NSMutableArray *models = [NSMutableArray arrayWithCapacity:musicDataList.count];
     
-    for (MusicList *musicList in dataMusicList) {
+    for (MusicData *musicData in musicDataList) {
         // MusicList *musicList = [MusicList musicListWithDict:dict];
         MusicListFrame *musicListF = [[MusicListFrame alloc] init];
-        musicListF.musicList = musicList;
+        musicListF.musicData = musicData;
         //  NSLog(@"%f",musicListF.songNameF.size.width);
         
         [models addObject:musicListF];
         
     }
     self.statusFrames = [models copy];
+    
+
     
     [_tableView reloadData];
     
@@ -269,33 +279,35 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
    
      note = 0;
    
-       
-        NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",searchBar.text,currentPage];
-        NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *urlStr = [[NSString alloc]initWithFormat: @"%@?%@", httpUrl, httpArg];
-        //[httpSearchUtil request: httpUrl withHttpArg: httpArg];
-    
-        [HttpSearchUtil httpNsynchronousRequestUrl:urlStr finshedBlock:^(NSDictionary *totalDic){
+  
+
+    [FetchDataFromNet fetchMusicData:_searchBar.text page:1  limit:10 callback:^(NSArray *array, NSInteger page, NSError *error){
+        if (error) {
+            NSLog(@"error = %@",error);
+        } else{
             
-            if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
-                //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
-                NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
-                NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
-                [dataMusicList removeAllObjects];
-                for (id a in array) {
-                    [dataMusicList addObject:a];
-                }
-                
+            [musicDataList removeAllObjects];
+            for (id a in array) {
+                [musicDataList addObject:a];
             }
-            
-            NSLog(@"%@",dataMusicList);
+            if (isSelect) {//重新搜索的时候把之前的控件刷新
+                MusicListFrame *musicListFrame =  _statusFrames[selectNum];
+                musicListFrame.cellHeight -= 44;
+                [oldCell.moreView removeFromSuperview];
+                oldCell = nil;
+                isSelect = NO;
+            }
+          
             
             // 刷新表格
             [self.tableView reloadData];
-        }];
+            
+        }
+    }];
 
     
-
+    
+    
     
 }
 
@@ -306,9 +318,15 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (note == 0)
-        return [dataMusicList count];
+        return [musicDataList count];
     else
-        return [_statusFrames count];
+    {
+        
+      
+         return [_statusFrames count];
+        
+    }
+    
 }
 
 
@@ -324,8 +342,11 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         }
         //cell.textLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"songName"];
-        MusicList *musicList = [dataMusicList objectAtIndex:indexPath.row];
-        cell.textLabel.text = musicList.songName;
+        //MusicList *musicList = [musicDataList objectAtIndex:indexPath.row];
+       // cell.textLabel.text = musicList.songName;
+        MusicData *musicData = [musicDataList objectAtIndex:indexPath.row];
+        cell.textLabel.text = musicData.trackname;
+       
         return cell;
     }
     else
@@ -336,6 +357,12 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         // 3.设置数据
         cell.musicListFrame = self.statusFrames[indexPath.row];
         
+        [cell.moreView.btn1 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreView.btn2 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreView.btn3 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreView.btn4 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreView.btn5 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreView.btn6 addTarget:self action:@selector(toolClick:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
 }
@@ -350,6 +377,9 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     
     else
     {
+        
+      
+        
         MusicListFrame *musicListFrame = _statusFrames[indexPath.row];
         return musicListFrame.cellHeight;
         
@@ -358,10 +388,91 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    _searchBar.text =cell.textLabel.text;
-    
-    [self endSearch];
+    if (note == 0) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        _searchBar.text =cell.textLabel.text;
+        [self endSearch];
+    }
+    else
+    {
+        NSMutableArray *array;
+        MusicListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (isSelect && selectNum >=0) {
+            if(indexPath.row != selectNum)//如果之前选中的和当前的不一样
+            {
+                
+                MusicListFrame *musicListOldFrame = _statusFrames[selectNum];
+                musicListOldFrame.cellHeight -= 44;
+                [oldCell.moreView removeFromSuperview];
+               
+              
+               
+                
+                MusicListFrame *musicListNewFrame = _statusFrames[indexPath.row];
+                
+  
+                //改变它的frame的x,y的值
+                musicListNewFrame.cellHeight += 44;
+               
+                [cell addSubview:cell.moreView];
+                [UIView animateWithDuration:0.2f delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+                    cell.moreView.alpha = 1;
+                    
+                } completion:^(BOOL finished) {
+                    
+                    　　}
+                 ];
+                oldCell = cell;
+                selectNum = indexPath.row;
+                
+                
+               
+                
+            }
+            else//之前选中的和当前取消的相同
+            {
+                MusicListFrame *musicListOldFrame = _statusFrames[selectNum];
+                musicListOldFrame.cellHeight -= 44;
+              
+             
+                isSelect = NO;
+                NSLog(@"选中相同");
+                [cell.moreView removeFromSuperview];
+               
+            }
+
+            
+        }
+        else
+        {
+            MusicListFrame *musicListFrame = _statusFrames[indexPath.row];
+            cell.moreView.alpha = 0;
+            musicListFrame.cellHeight += 44;
+            isSelect = YES;
+            [cell addSubview:cell.moreView];
+            
+          
+            [UIView animateWithDuration:0.2f delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+                    cell.moreView.alpha = 1;
+            
+            } completion:^(BOOL finished) {
+              }
+             ];
+            
+            oldCell = cell;
+            selectNum = indexPath.row;
+            
+        }
+       
+        for (int i = 0; i < [_statusFrames count]; i++) {
+            NSIndexPath *te=[NSIndexPath indexPathForRow:i inSection:0];
+            [array addObject:te];
+        }
+         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [_tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationAutomatic];
+       // [_tableView reloadData];
+       
+    }
     
 }
 
@@ -369,11 +480,33 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 - (void)footerRereshing
 {
     NSLog(@"下拉加载测试");
+    //这段代码用来解除下拉时候那些道具条不会消失的问题
+    if (oldCell != nil) {
+        MusicListFrame *musicListFrame =  _statusFrames[selectNum];
+        musicListFrame.cellHeight -= 44;
+        [oldCell.moreView removeFromSuperview];
+        oldCell = nil;
+        isSelect = NO;
+    }
     
     currentPage++;
     
     
-    [self getRequestByText:_searchBar.text];
+    [FetchDataFromNet fetchMusicData:_searchBar.text page:currentPage limit:10 callback:^(NSArray *array, NSInteger page, NSError *error){
+        if (error) {
+            NSLog(@"error = %@",error);
+        } else{
+            
+           
+            for (id a in array) {
+                [musicDataList addObject:a];
+            }
+            // 刷新表格
+            [self.tableView reloadData];
+            
+        }
+    }];
+
     
    
     // 2.2秒后刷新表格UI
@@ -386,32 +519,41 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     });
 }
 
-#pragma mark - 封装服务器请求
+#pragma mark - 定义tool点击事件
+-(void)toolClick:(id)sender {
 
--(void)getRequestByText:(NSString *)text
-{
+    MusicListCell *cell = [[sender superview] superview];
 
+    NSString *identifier = cell.musicListFrame.musicData.trackIdentifier;
+    NSString *urlString = [NSString stringWithFormat:@"http://music.163.com/api/song/detail/?id=%@&ids=[%@]", identifier,identifier];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSDictionary *itemDictionary = [NSJSONSerialization JSONObjectWithData:received options:kNilOptions error:nil];
+    NSArray *array = [itemDictionary objectForKey:@"songs"];
+    NSString *str = [array[0] objectForKey:@"mp3Url"];
+   
+   
+    _musicPlayerVC.player = nil;
+    _musicPlayerVC.musicPlayerView = nil;
+    // _musicPlayerVC = nil;
+    _musicPlayerVC = [[MusicPlayerViewController alloc] init];
+    
+    
+    _musicPlayerVC.musicId = identifier;
+    _musicPlayerVC.detailUrl = str;
+    _musicPlayerVC.musicName = cell.musicListFrame.musicData.trackname;
+    NSLog(@"地址是%@",_musicPlayerVC);
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"SendMusicDetailUrl" object:self userInfo:@{@"url":str,@"musicId":identifier}];
+   
 
-    NSString *str = [NSString stringWithFormat:@"s=%@&limit=10&p=%d",text,currentPage];
-    NSString *httpArg = [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *urlStr = [[NSString alloc]initWithFormat: @"%@?%@", httpUrl, httpArg];
-
-    [HttpSearchUtil httpNsynchronousRequestUrl:urlStr finshedBlock:^(NSDictionary *totalDic){
-        
-        if ([[totalDic objectForKey:@"status"]  isEqual: @"success"]) {
-            //getList获取中间变量为一页的数量，array转换成模型存储到dataMusicList中
-            NSArray *getList = [[NSArray alloc]initWithArray:[[[totalDic objectForKey:@"data"] objectForKey:@"data"] objectForKey:@"list"]];
-            NSArray *array = [MusicList objectArrayWithKeyValuesArray:getList];
-           
-            for (id a in array) {
-                [dataMusicList addObject:a];
-            }
-            
-        }
-
-    }];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+   
+    [self presentViewController:nav animated:YES completion:nil];
+    
     
     
 }
+
 
 @end

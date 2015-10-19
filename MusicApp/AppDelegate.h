@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FirstTBViewController.h"
 #import "BaseTabBarController.h"
-
+#import "MyMusicTBViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
