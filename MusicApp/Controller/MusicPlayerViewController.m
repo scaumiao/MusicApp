@@ -54,7 +54,7 @@
     //[self getLyric:_musicId];
     NSLog(@"%@",_wordArray[2]);
     
-    
+    [_player play];
     isPlaying = YES;
     
     _musicPlayerView.totalPlaybackTime.text = [self strWithTime:_player.duration];//duration为总时长

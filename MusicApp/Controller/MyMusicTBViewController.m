@@ -99,6 +99,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     
+    
+    _musicPlayerVC = [MusicPlayerViewController shareInstance];
+    if ([_musicPlayerVC.player isPlaying]) {
+        [_musicPlayerVC.player stop];
+    }
+    
     NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , _requestArray[indexPath.row]];
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
@@ -109,12 +115,11 @@
     [_timeArray removeAllObjects];
     [self getLyric:_requestArray[indexPath.row]];
     
-    _musicPlayerVC = [MusicPlayerViewController shareInstance];
     
     _musicPlayerVC.wordArray = _wordArray;
     _musicPlayerVC.timeArray = _timeArray;
     _musicPlayerVC.player = _player;
-    [_player play];
+    
     
     _musicPlayerVC.musicId = _requestArray[indexPath.row];
  

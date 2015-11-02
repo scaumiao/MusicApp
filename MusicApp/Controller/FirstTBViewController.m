@@ -542,14 +542,20 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
         
     }
-    [_player play];
+   // [_player play];
 
+    
+    
     [_wordArray removeAllObjects];
     [_timeArray removeAllObjects];
     [self getLyric:identifier];
     
-    
+    //获取单例，判断是否在播放
     _musicPlayerVC = [MusicPlayerViewController shareInstance];
+    if ([_musicPlayerVC.player isPlaying]) {
+        [_musicPlayerVC.player stop];
+    }
+  
     
     _musicPlayerVC.wordArray = _wordArray;
     _musicPlayerVC.timeArray = _timeArray;
