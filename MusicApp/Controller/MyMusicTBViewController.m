@@ -17,6 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _wordArray = [[NSMutableArray alloc] init];
+    _timeArray = [[NSMutableArray alloc] init];
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height - 50) style:UITableViewStylePlain];
 }
 
@@ -38,6 +41,9 @@
     NSLog(@"这个是多少%f",_tableView.frame.origin.y);
     
     [self getMusicId];
+    
+    
+
 
 }
 
@@ -93,13 +99,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     
+    NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , _requestArray[indexPath.row]];
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     
-    _musicPlayerVC.player = nil;
-    _musicPlayerVC.musicPlayerView = nil;
     
+    [_wordArray removeAllObjects];
+    [_timeArray removeAllObjects];
+    [self getLyric:_requestArray[indexPath.row]];
     
-    _musicPlayerVC = [[MusicPlayerViewController alloc] init];
+    _musicPlayerVC = [MusicPlayerViewController shareInstance];
     
+    _musicPlayerVC.wordArray = _wordArray;
+    _musicPlayerVC.timeArray = _timeArray;
+    _musicPlayerVC.player = _player;
+    [_player play];
     
     _musicPlayerVC.musicId = _requestArray[indexPath.row];
  
@@ -112,8 +127,9 @@
 
 -(void)selectRightAction:(id)sender
 {
-    
+    _musicPlayerVC = [MusicPlayerViewController shareInstance];
     if (_musicPlayerVC != nil) {
+        
         
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
         
@@ -122,6 +138,46 @@
     }
     
     
+    
+}
+
+
+#pragma mark - 获取歌词
+-(void)getLyric:(NSString *)number{
+    
+    
+    [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
+        if (error) {
+            NSLog(@"error = %@",error);
+            _wordArray[0] = @"无网络";
+            _timeArray[0] = @"00:00";
+        } else{
+            if (stringItem == nil) {
+                _wordArray[0] = @"暂无歌词";
+                _timeArray[0] = @"00:00";
+            }
+            else
+                
+                [self parselyric:stringItem];
+            
+        }
+        
+    }];
+    
+    
+}
+
+
+#pragma mark - 解析歌词
+-(void)parselyric:(NSString *)lyric
+{
+    
+    NSArray *sepArray = [lyric componentsSeparatedByString:@"["];
+    for (int i = 1; i < sepArray.count; i++) {
+        NSArray *arr = [sepArray[i] componentsSeparatedByString:@"]"];
+        [_timeArray addObject:arr[0]];
+        [_wordArray addObject:arr[1]];
+    }
     
 }
 

@@ -32,7 +32,8 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    _wordArray = [[NSMutableArray alloc] init];
+    _timeArray = [[NSMutableArray alloc] init];
     
     note = 0;
     //并行操作测试
@@ -102,25 +103,6 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
    
     
     
-    //搜索框
-    /*
-    _searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
-    
-    _searchController.searchResultsUpdater = self;
-    
-    _searchController.dimsBackgroundDuringPresentation = NO;
-    
-    _searchController.hidesNavigationBarDuringPresentation = NO;
-    
-    _searchController.searchBar.frame = CGRectMake(100, 30, 100, 44.0);
-    
-    _searchController.searchBar.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:_searchController.searchBar];
-    
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(100, 20, 100, 44.0)];
-    
-    [self.view addSubview:_searchBar];
-     */
 
 }
 
@@ -533,19 +515,52 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     NSArray *array = [itemDictionary objectForKey:@"songs"];
     NSString *str = [array[0] objectForKey:@"mp3Url"];
    
-   
-    _musicPlayerVC.player = nil;
-    _musicPlayerVC.musicPlayerView = nil;
+  
+    //将player放在此处，跳转页面用单例实现
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , identifier];
+    
+    if (![fileManager fileExistsAtPath:filePath]) {
+        NSLog(@"is not exit");
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:str]];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            
+            
+            //下载文件
+            [data writeToFile:filePath atomically:YES];
+            _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
+            
+        }];
+        
+    }
+    else
+    {
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+        
+    }
+    [_player play];
+
+    [_wordArray removeAllObjects];
+    [_timeArray removeAllObjects];
+    [self getLyric:identifier];
+    
+    
+    _musicPlayerVC = [MusicPlayerViewController shareInstance];
+    
+    _musicPlayerVC.wordArray = _wordArray;
+    _musicPlayerVC.timeArray = _timeArray;
+    _musicPlayerVC.player = _player;
+   // _musicPlayerVC.musicPlayerView = nil;
     // _musicPlayerVC = nil;
-    _musicPlayerVC = [[MusicPlayerViewController alloc] init];
-    
-    
     _musicPlayerVC.musicId = identifier;
     _musicPlayerVC.detailUrl = str;
     _musicPlayerVC.musicName = cell.musicListFrame.musicData.trackname;
-    NSLog(@"地址是%@",_musicPlayerVC);
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"SendMusicDetailUrl" object:self userInfo:@{@"url":str,@"musicId":identifier}];
-   
+
+
 
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
    
@@ -555,5 +570,44 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     
 }
 
+
+#pragma mark - 获取歌词
+-(void)getLyric:(NSString *)number{
+    
+    
+    [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
+        if (error) {
+            NSLog(@"error = %@",error);
+            _wordArray[0] = @"无网络";
+            _timeArray[0] = @"00:00";
+        } else{
+            if (stringItem == nil) {
+                _wordArray[0] = @"暂无歌词";
+                _timeArray[0] = @"00:00";
+            }
+            else
+              
+                [self parselyric:stringItem];
+            
+        }
+        
+    }];
+    
+    
+}
+
+
+#pragma mark - 解析歌词
+-(void)parselyric:(NSString *)lyric
+{
+    
+    NSArray *sepArray = [lyric componentsSeparatedByString:@"["];
+    for (int i = 1; i < sepArray.count; i++) {
+        NSArray *arr = [sepArray[i] componentsSeparatedByString:@"]"];
+        [_timeArray addObject:arr[0]];
+        [_wordArray addObject:arr[1]];
+    }
+   
+}
 
 @end

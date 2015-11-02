@@ -38,4 +38,12 @@ static MusicPlayerViewController *_musicPlayerVC;
 //放置自定义cell的frame
 @property (nonatomic, strong) NSMutableArray *statusFrames;
 
+@property(strong,nonatomic)AVAudioPlayer *player;
+
+//时间
+@property (nonatomic,strong)NSMutableArray *timeArray;
+
+//歌词
+@property (nonatomic,strong)NSMutableArray *wordArray;
+
 @end

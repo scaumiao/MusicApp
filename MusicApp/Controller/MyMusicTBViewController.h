@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MusicPlayerViewController.h"
-
+#import "FetchDataFromNet.h"
 @interface MyMusicTBViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 
@@ -18,4 +18,9 @@
 
 @property(strong,nonatomic)NSMutableArray *requestArray;
 @property(strong,nonatomic)MusicPlayerViewController *musicPlayerVC;
+
+@property(strong,nonatomic)NSMutableArray *wordArray;
+@property(strong,nonatomic)NSMutableArray *timeArray;
+
+@property(strong,nonatomic)AVAudioPlayer *player;
 @end

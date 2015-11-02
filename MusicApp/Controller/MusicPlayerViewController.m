@@ -40,89 +40,21 @@
 }
 
 
-
-
-
--(void)viewDidLoad
+-(void)viewWillAppear:(BOOL)animated
 {
-   
-    _musicPlayerView = [[MusicPlayerView alloc] initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height)];
     
-    _timeArray = [[NSMutableArray alloc] init];
-    _wordArray = [[NSMutableArray alloc] init];
     
-    //获取路径
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , _musicId];
+  
     
-
+//    _timeArray = [[NSMutableArray alloc] init];
+//    _wordArray = [[NSMutableArray alloc] init];
     
-//    NSString *plistName = [docDirPath stringByAppendingPathComponent:@"download.plist"];
-//    NSDictionary *dic2 = [NSDictionary dictionaryWithContentsOfFile:plistName];
-//    
-//    if (dic2 == nil) {
-//        NSFileManager *fm = [NSFileManager defaultManager];
-//        [fm createFileAtPath:plistName contents:nil attributes:nil];
-//        
-//    }
+    //获取路径***********************************
+    NSLog(@"musicId为%@",_musicId);
+    //[self getLyric:_musicId];
+    NSLog(@"%@",_wordArray[2]);
     
-    //写入真机Plist
-//    NSString *lib = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-//    NSString *libPath = [lib stringByAppendingString:@"/Caches"];
-//    NSString* plistPath = [libPath stringByAppendingFormat:@"/download.plist"];
-//    
-//    if(![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-//        NSMutableArray *dictplist = [[NSMutableArray alloc] init];
-//        [dictplist insertObject:@"download" atIndex:0];
-//        
-//        [dictplist writeToFile:plistPath atomically:YES];
-//        NSLog(@"------1-----%@",dictplist);
-//    }
-//    NSMutableDictionary *allDic = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-//    NSLog(@"shi%@",plistPath);
-//    [allDic setObject:_musicId forKey:_musicName];
-//    [allDic writeToFile:plistPath atomically:YES];
-    if (![fileManager fileExistsAtPath:filePath]) {
-        NSLog(@"is not exit");
-        
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_detailUrl]];
-        
-        //创建一个可变字典用来存储plist之前的内容
-       //模拟器
-       
-        
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            
-            //写入plist中
-//            int intString = [_musicId intValue];
-//            NSString *str =  [NSString stringWithFormat:@"%d",intString];
-//            
-//            [allDic setObject:_musicName forKey:str];
-//            [allDic writeToFile:plistPath atomically:YES];
-            
-            
-            //[allDic setObject:_musicName forKey:str];
-           // [allDic writeToFile:plistName atomically:YES];
-            
-            
-         
-            
-            //下载文件
-            [data writeToFile:filePath atomically:YES];
-            _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
-            [_player play];
-            _musicPlayerView.totalPlaybackTime.text = [self strWithTime:_player.duration];//duration为总时长
-        }];
-        
-    }
-    else
-    {
-        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-        
-    }
-    [_player play];
+    
     isPlaying = YES;
     
     _musicPlayerView.totalPlaybackTime.text = [self strWithTime:_player.duration];//duration为总时长
@@ -132,7 +64,8 @@
     
     
     
-    [self getLyric:_musicId];
+    
+    
     //SDImageCache
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -153,48 +86,52 @@
                                 visualEffectView.frame = self.view.bounds;
                                 visualEffectView.alpha = 1.0;
                                 
-//                                                                  visualEffectView.backgroundColor = [UIColor colorWithPatternImage:image];占用内存舍弃
+                                //                                                                  visualEffectView.backgroundColor = [UIColor colorWithPatternImage:image];占用内存舍弃
                                 
                                 visualEffectView.layer.contents = (id)image.CGImage;
-                              
+                                
                                 _musicPlayerView.noLrcTableView.backgroundView = visualEffectView;
                                 
                                 
-                                //                                    UIImageView *blurImageView = [[UIImageView alloc]initWithFrame: _musicPlayerView.noLrcTableView.bounds];
-                                //                                    blurImageView.image = [self blur:image];
-                                //
-                                //
-                                //
-                                //
-                                ////                                    blurImageView.image = image;
-                                //                                    _musicPlayerView.noLrcTableView.backgroundView = blurImageView;
-//                                NSString *homePath=NSHomeDirectory();
-//                                 NSLog(@"%@",homePath);
-                            
+                                
+                                //                                NSString *homePath=NSHomeDirectory();
+                                //                                 NSLog(@"%@",homePath);
+                                
                             }
                         }];
-//    f83c5b3f2b2bdcd7254bcbdd5a6a2238
-  
+    //    f83c5b3f2b2bdcd7254bcbdd5a6a2238
     
     
-   
+    
+    
     if (_wordArray && _timeArray) {
-         _musicPlayerView.noLrcTableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消cell分隔线
+        _musicPlayerView.noLrcTableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消cell分隔线
         _musicPlayerView.noLrcTableView.delegate = self;
         _musicPlayerView.noLrcTableView.dataSource = self;
         [_musicPlayerView.progress addTarget:self action:@selector(processChanged) forControlEvents:UIControlEventValueChanged];
         [_musicPlayerView.playButton addTarget:self action:@selector(playButtonEvent) forControlEvents:UIControlEventTouchUpInside];
     }
-
-
+    
+    
     [self.view addSubview:_musicPlayerView];
     
     
+    [_musicPlayerView.noLrcTableView reloadData];
+    
+
+  
+}
+
+
+-(void)viewDidLoad
+{
+    
+    
+    
+      _musicPlayerView = [[MusicPlayerView alloc] initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height)];
+    
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_chbackbtn.png"] style:UIBarButtonItemStylePlain target:self action:@selector(selectLeftAction:)];
     self.navigationItem.leftBarButtonItem = leftButton;
-    
-    
-    
     
 }
 //#pragma mark - 通知
@@ -357,7 +294,7 @@
 {
     
 
-    UITableViewCell *cell;
+    UITableViewCell *cell = nil;
     UILabel *label =nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (cell ==nil) {
@@ -386,7 +323,6 @@
     label.textColor = [UIColor whiteColor];
     cell.backgroundColor = [UIColor clearColor];
     cell.backgroundView = nil;
-   
     return cell;
     
     
@@ -413,35 +349,9 @@
 
 -(void)selectLeftAction:(id)sender
 {
-    //
-   // [[NSNotificationCenter defaultCenter ] removeObserver:self];
 
-    
-    
+ 
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-//    @property(strong,nonatomic)MusicPlayerView *musicPlayerView;
-//    
-//    @property(strong,nonatomic)NSString *newsUrl;
-//    
-//    //时间
-//    @property (nonatomic,strong)NSMutableArray *timeArray;
-//    
-//    //歌词
-//    @property (nonatomic,strong)NSMutableArray *wordArray;
-//    //
-//    //
-//    //@property (nonatomic,strong) UIButton * downLoadButton;
-//    //
-//    @property(nonatomic,strong)AVAudioPlayer *player;
-//    //
-//    ////定时器
-//    @property(nonatomic,strong)NSTimer *CurrentTimeTimer;
-//    
-//    //请求音乐的Url
-//    @property(nonatomic,strong)NSString *detailUrl;
-//    //请求音乐的Id
-//    @property(nonatomic,strong)NSString *musicId;
     
 }
 
@@ -466,13 +376,12 @@
     
 }
 
--(void)setMusic:(NSString *)url{
-    
-    
-}
--(void)viewDidDisappear:(BOOL)animated
+
+
+
+-(void)dealloc
 {
-    NSLog(@"视图消失");
+    NSLog(@"到底释不释放啊");
 }
 
 @end
