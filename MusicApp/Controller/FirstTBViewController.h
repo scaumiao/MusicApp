@@ -46,4 +46,10 @@ static MusicPlayerViewController *_musicPlayerVC;
 //歌词
 @property (nonatomic,strong)NSMutableArray *wordArray;
 
+
+
+
+
+
+
 @end

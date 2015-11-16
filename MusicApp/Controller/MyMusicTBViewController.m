@@ -7,7 +7,7 @@
 //
 
 #import "MyMusicTBViewController.h"
-
+#import "Reachability.h"
 @interface MyMusicTBViewController ()
 
 @end
@@ -42,7 +42,7 @@
     
     [self getMusicId];
     
-    
+    [_tableView reloadData];
 
 
 }
@@ -79,7 +79,7 @@
     //获取路径
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
+    NSLog(@"%@",docDirPath);
 
     //初始化
     _requestArray = [NSMutableArray array];
@@ -122,7 +122,7 @@
     
     
     _musicPlayerVC.musicId = _requestArray[indexPath.row];
- 
+  
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
     
@@ -151,23 +151,38 @@
 -(void)getLyric:(NSString *)number{
     
     
-    [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
-        if (error) {
-            NSLog(@"error = %@",error);
-            _wordArray[0] = @"无网络";
-            _timeArray[0] = @"00:00";
-        } else{
-            if (stringItem == nil) {
-                _wordArray[0] = @"暂无歌词";
-                _timeArray[0] = @"00:00";
-            }
-            else
-                
-                [self parselyric:stringItem];
-            
-        }
+    if ([self testConnection]) {
         
-    }];
+        [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
+            if (error) {
+                NSLog(@"error = %@",error);
+                _wordArray[0] = @"无网络";
+                _timeArray[0] = @"00:00";
+            } else{
+                if (stringItem == nil) {
+                    _wordArray[0] = @"暂无歌词";
+                    _timeArray[0] = @"00:00";
+                }
+                else
+                    
+                    [self parselyric:stringItem];
+                
+            }
+            
+        }];
+    }
+    
+    else
+    {
+        _wordArray[0] = @"无网络";
+        _timeArray[0] = @"00:00";
+        _wordArray[1] = @"暂无歌词";
+        _timeArray[1] = @"00:00";
+        _wordArray[2] = @"暂无歌词";
+        _timeArray[2] = @"00:00";
+    }
+
+
     
     
 }
@@ -186,4 +201,30 @@
     
 }
 
+
+#pragma mark - 判断是否有网络
+- (BOOL)testConnection {
+    BOOL result = YES;
+    
+    
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    switch ([r currentReachabilityStatus]) {
+        case NotReachable:
+            // 没有网络连接
+            NSLog(@"没有网络");
+            return NO;
+            break;
+        case ReachableViaWWAN:
+            // 使用3G网络
+            NSLog(@"正在使用3G网络");
+            return YES;
+            break;
+        case ReachableViaWiFi:
+            // 使用WiFi网络
+            NSLog(@"正在使用wifi网络");
+            return YES;
+            break;
+    }
+    return result;
+}
 @end

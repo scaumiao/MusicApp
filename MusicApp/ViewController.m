@@ -46,7 +46,7 @@
                                    _searchDic = [array objectAtIndex:0];
                                    // NSLog(@"%@",_searchDic);
                                }
-                           }];*/
+                           }];异步*/
     
     
 }

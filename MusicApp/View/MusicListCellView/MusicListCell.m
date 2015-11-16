@@ -19,16 +19,16 @@
 
 
 
-+(instancetype)cellWithTableView:(UITableView *)tableView
++(instancetype)cellWithTableView:(UITableView *)tableView andIdentify:(NSString *)identify
 {
     
     // NSLog(@"cellForRowAtIndexPath");
-    static NSString *identifier = @"article";
+  
     // 1.缓存中取
-    MusicListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    MusicListCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     // 2.创建
     if (cell == nil) {
-        cell = [[MusicListCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[MusicListCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     return cell;
     

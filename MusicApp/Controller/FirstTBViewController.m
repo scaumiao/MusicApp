@@ -7,7 +7,7 @@
 //
 
 #import "FirstTBViewController.h"
-
+#import "Reachability.h"
 NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 
 
@@ -95,8 +95,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 
     [self.view addSubview:_tableView];
     
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
-    
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
     //隐藏多余线条
     [_tableView setTableFooterView:[[UIView alloc] init]];
     //self.title = @"发现音乐";
@@ -328,14 +327,14 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
        // cell.textLabel.text = musicList.songName;
         MusicData *musicData = [musicDataList objectAtIndex:indexPath.row];
         cell.textLabel.text = musicData.trackname;
-       
+     
         return cell;
     }
     else
     {
         
         
-        MusicListCell *cell = [MusicListCell cellWithTableView:tableView];
+        MusicListCell *cell = [MusicListCell cellWithTableView:tableView andIdentify:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
         // 3.设置数据
         cell.musicListFrame = self.statusFrames[indexPath.row];
         
@@ -443,6 +442,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
             
             oldCell = cell;
             selectNum = indexPath.row;
+          
             
         }
        
@@ -452,7 +452,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         }
          cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [_tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationAutomatic];
-       // [_tableView reloadData];
+       
        
     }
     
@@ -497,7 +497,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         [self endSearch];
         
         // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-        [self.tableView footerEndRefreshing];
+   
     });
 }
 
@@ -526,14 +526,19 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:str]];
         
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            
-            
-            //下载文件
-            [data writeToFile:filePath atomically:YES];
-            _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
-            
-        }];
+        
+        NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        //下载文件
+        [data writeToFile:filePath atomically:YES];
+        _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
+//        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//            
+//            
+//            //下载文件
+//            [data writeToFile:filePath atomically:YES];
+//            _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
+//            
+//        }];
         
     }
     else
@@ -542,10 +547,15 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
         _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
         
     }
-   // [_player play];
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    [_player play];
 
     
-    
+
+   
+
     [_wordArray removeAllObjects];
     [_timeArray removeAllObjects];
     [self getLyric:identifier];
@@ -555,13 +565,14 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     if ([_musicPlayerVC.player isPlaying]) {
         [_musicPlayerVC.player stop];
     }
-  
+   
     
     _musicPlayerVC.wordArray = _wordArray;
     _musicPlayerVC.timeArray = _timeArray;
     _musicPlayerVC.player = _player;
-   // _musicPlayerVC.musicPlayerView = nil;
-    // _musicPlayerVC = nil;
+    
+    [_musicPlayerVC.player play];
+    
     _musicPlayerVC.musicId = identifier;
     _musicPlayerVC.detailUrl = str;
     _musicPlayerVC.musicName = cell.musicListFrame.musicData.trackname;
@@ -580,25 +591,32 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
 #pragma mark - 获取歌词
 -(void)getLyric:(NSString *)number{
     
-    
-    [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
-        if (error) {
-            NSLog(@"error = %@",error);
-            _wordArray[0] = @"无网络";
-            _timeArray[0] = @"00:00";
-        } else{
-            if (stringItem == nil) {
-                _wordArray[0] = @"暂无歌词";
-                _timeArray[0] = @"00:00";
-            }
-            else
-              
-                [self parselyric:stringItem];
-            
-        }
+    if ([self testConnection]) {
         
-    }];
-    
+        [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
+            if (error) {
+                NSLog(@"error = %@",error);
+                _wordArray[0] = @"无网络";
+                _timeArray[0] = @"00:00";
+            } else{
+                if (stringItem == nil) {
+                    _wordArray[0] = @"暂无歌词";
+                    _timeArray[0] = @"00:00";
+                }
+                else
+                    
+                    [self parselyric:stringItem];
+                
+            }
+            
+        }];
+    }
+   
+    else
+    {
+        _wordArray[0] = @"无网络";
+        _timeArray[0] = @"00:00";
+    }
     
 }
 
@@ -615,5 +633,33 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     }
    
 }
+
+
+#pragma mark - 判断是否有网络
+- (BOOL)testConnection {
+    BOOL result = YES;
+    
+    
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    switch ([r currentReachabilityStatus]) {
+        case NotReachable:
+            // 没有网络连接
+            NSLog(@"没有网络");
+            return NO;
+            break;
+        case ReachableViaWWAN:
+            // 使用3G网络
+            NSLog(@"正在使用3G网络");
+            return YES;
+            break;
+        case ReachableViaWiFi:
+            // 使用WiFi网络
+            NSLog(@"正在使用wifi网络");
+            return YES;
+            break;
+    }
+    return result;
+}
+
 
 @end

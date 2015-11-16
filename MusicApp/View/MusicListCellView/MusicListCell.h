@@ -35,7 +35,7 @@
 
 @property(nonatomic,strong)MusicListTool *moreView;
 
-+(instancetype)cellWithTableView:(UITableView *)tableView;
++(instancetype)cellWithTableView:(UITableView *)tableView andIdentify:(NSString *)identify;
 
 
 
