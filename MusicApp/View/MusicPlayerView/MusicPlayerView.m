@@ -60,7 +60,7 @@
         
         
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _playButton.frame = CGRectMake(self.frame.size.width/2-64/2,self.frame.size.height-64-40, 64, 64);
+        _playButton.frame = CGRectMake(self.frame.size.width/2-64/2,self.frame.size.height-64-60, 64, 64);
         [_playButton setImage:[UIImage imageNamed:@"pasue.png"] forState:UIControlStateNormal];
         [_playButton setImage:[UIImage imageNamed:@"playHight.png"] forState:UIControlStateHighlighted];
      //   [_playButton addTarget:self action:@selector(playButtonEvent) forControlEvents:UIControlEventTouchUpInside];
@@ -119,7 +119,7 @@
         //    [self.view addSubview:noLrcLabel];
         //    noLrcLabel.font = [UIFont boldSystemFontOfSize:14.0f];
         
-        _noLrcTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,self.downLoadButton.frame.origin.y + self.downLoadButton.frame.size.height, self.frame.size.width, 260) style:UITableViewStylePlain];
+        _noLrcTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,self.downLoadButton.frame.origin.y + self.downLoadButton.frame.size.height, self.frame.size.width, 440) style:UITableViewStylePlain];
   
         [self addSubview:_noLrcTableView];
 

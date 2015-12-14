@@ -61,7 +61,7 @@
     CGFloat moreViewX = 0;
     CGFloat moreViewY = CGRectGetMaxY(_albumNameF) +10 ;
     CGFloat moreViewH = 44;
-    CGFloat moreViewW = 320;
+    CGFloat moreViewW = 380;
     
     self.moreF = CGRectMake(moreViewX, moreViewY, moreViewW, moreViewH);
     

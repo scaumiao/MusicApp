@@ -12,14 +12,19 @@
 
 @end
 
-@implementation MyMusicTBViewController
+@implementation MyMusicTBViewController{
+   
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
+    
     _wordArray = [[NSMutableArray alloc] init];
     _timeArray = [[NSMutableArray alloc] init];
-    
+    _totalWordArray = [[NSMutableArray alloc] init];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height - 50) style:UITableViewStylePlain];
 }
 
@@ -38,14 +43,14 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     
-    NSLog(@"这个是多少%f",_tableView.frame.origin.y);
+  //  NSLog(@"这个是多少%f",_tableView.frame.origin.y);
     
     [self getMusicId];
     
     [_tableView reloadData];
 
-
-}
+    
+  }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -66,7 +71,6 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%d",[_nameArray count]);
     return [_nameArray count];
 }
 
@@ -79,18 +83,25 @@
     //获取路径
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSLog(@"%@",docDirPath);
+   // NSLog(@"%@",docDirPath);
 
     //初始化
     _requestArray = [NSMutableArray array];
     
     NSArray *files = [fileManager subpathsAtPath:docDirPath];
     
-
-    for (int i = 0; i < [files count]  ; i++) {
+    
+    [_totalWordArray removeAllObjects];
+    for (int i = 0; i < [files count] -1 ; i++) {
        // [_nameArray addObject:[allDic objectForKey:files[i]]];
-        [_nameArray addObject:files[i]];
+        
          NSArray *sepArray = [files[i] componentsSeparatedByString:@"."];
+        
+        NSMutableArray *array = [FMDBUse findNameByMusicId:sepArray[0]];
+      //  NSLog(@"musicName为%@",array[0]);
+       // [_nameArray addObject:files[i]];
+        [_totalWordArray addObject:array[1]];
+        [_nameArray addObject:array[0]];
         [_requestArray addObject:sepArray[0]];
     }
     
@@ -108,25 +119,47 @@
     NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , _requestArray[indexPath.row]];
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    _musicPlayerVC.player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     
     
-    [_wordArray removeAllObjects];
-    [_timeArray removeAllObjects];
-    [self getLyric:_requestArray[indexPath.row]];
+//    [_wordArray removeAllObjects];
+//    [_timeArray removeAllObjects];
+//    [self getLyric:_requestArray[indexPath.row]];
+
     
+    //解析歌词
+    [self parselyric:_totalWordArray[indexPath.row]];
     
     _musicPlayerVC.wordArray = _wordArray;
     _musicPlayerVC.timeArray = _timeArray;
-    _musicPlayerVC.player = _player;
-    
+   // _musicPlayerVC.player = _player;
+   // [_musicPlayerVC getMusicPlayer:fileURL];
     
     _musicPlayerVC.musicId = _requestArray[indexPath.row];
   
+  //  [self presentModalViewController:_musicPlayerVC animated:YES];
+   
+    if (_nav != nil) {
+       // NSLog(@"不为空");
+    }
+    else{
+        _nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+
+       // NSLog(@"到底每次是不是空的");
+        
+    }
+    NSLog(@"这次是多少%@",_musicPlayerVC.player);
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
     
-    [self presentViewController:nav animated:YES completion:nil];
+       // [self presentViewController:_nav animated:YES completion:nil];
+    self.tabBarController.tabBar.hidden = YES;
+    
+    self.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:_musicPlayerVC animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+
     
 }
 
@@ -136,12 +169,14 @@
     if (_musicPlayerVC != nil) {
         
         
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+        self.tabBarController.tabBar.hidden = YES;
         
+        self.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:_musicPlayerVC animated:YES];
+        self.hidesBottomBarWhenPushed=NO;
+       
         
-        [self presentViewController:nav animated:YES completion:nil];
     }
-    
     
     
 }
@@ -191,7 +226,7 @@
 #pragma mark - 解析歌词
 -(void)parselyric:(NSString *)lyric
 {
-    
+    [_wordArray removeAllObjects];
     NSArray *sepArray = [lyric componentsSeparatedByString:@"["];
     for (int i = 1; i < sepArray.count; i++) {
         NSArray *arr = [sepArray[i] componentsSeparatedByString:@"]"];

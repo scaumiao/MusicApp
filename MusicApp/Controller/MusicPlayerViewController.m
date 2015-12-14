@@ -34,8 +34,6 @@
         shareInstance = [[MusicPlayerViewController alloc] init];
     });
     
-    
-    
     return shareInstance;
 }
 
@@ -44,24 +42,13 @@
 {
     
     
-  
-    
-//    _timeArray = [[NSMutableArray alloc] init];
-//    _wordArray = [[NSMutableArray alloc] init];
-    
-    //获取路径***********************************
-    NSLog(@"musicId为%@",_musicId);
-    //[self getLyric:_musicId];
-    NSLog(@"%@",_wordArray[2]);
-    
     [_player play];
     isPlaying = YES;
     
     _musicPlayerView.totalPlaybackTime.text = [self strWithTime:_player.duration];//duration为总时长
     
     
-    [NSTimer scheduledTimerWithTimeInterval:0.001 target:self selector:@selector(updateSliderValue) userInfo:nil repeats:YES];
-    
+   
     
     
     
@@ -116,49 +103,29 @@
     [self.view addSubview:_musicPlayerView];
     
     
-    [_musicPlayerView.noLrcTableView reloadData];
-    
+   // [_musicPlayerView.noLrcTableView reloadData];
 
-  
+    
 }
+
 
 
 -(void)viewDidLoad
 {
     
-    
-    
-      _musicPlayerView = [[MusicPlayerView alloc] initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height)];
+
+    _musicPlayerView = [[MusicPlayerView alloc] initWithFrame:CGRectMake(0, 45, self.view.frame.size.width, self.view.frame.size.height)];
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_chbackbtn.png"] style:UIBarButtonItemStylePlain target:self action:@selector(selectLeftAction:)];
     self.navigationItem.leftBarButtonItem = leftButton;
+
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:0.001 target:self selector:@selector(updateSliderValue) userInfo:nil repeats:YES];
+    
     
 }
-//#pragma mark - 通知
-//-(void)SendMusicDetailUrl:(NSNotification*)notification{
-//    //读取并设置请求的音乐地址
-//    NSDictionary *nameDictionary = [notification userInfo];
-//    _detailUrl = [nameDictionary objectForKey:@"url"];
-//    _musicId = [nameDictionary objectForKey:@"musicId"];
-//    
-//}
-////生成一张毛玻璃图片
-//- (UIImage*)blur:(UIImage*)theImage
-//{
-//    CIContext *context = [CIContext contextWithOptions:nil];
-//    CIImage *inputImage = [CIImage imageWithCGImage:theImage.CGImage];
-//    
-//    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-//    [filter setValue:inputImage forKey:kCIInputImageKey];
-//    [filter setValue:[NSNumber numberWithFloat:50.0f] forKey:@"inputRadius"];
-//    CIImage *result = [filter valueForKey:kCIOutputImageKey];
-//    
-//    CGImageRef cgImage = [context createCGImage:result fromRect:[inputImage extent]];
-//    
-//    UIImage *returnImage = [UIImage imageWithCGImage:cgImage];
-//    CGImageRelease(cgImage);
-//    return returnImage;
-//}
+
 
 -(void)playButtonEvent
 {
@@ -204,9 +171,9 @@
 #pragma mark - 滑动条事件
 -(void)processChanged
 {
-//    [_player setCurrentTime:progress.value*_player.duration];
-      [_player setCurrentTime:_musicPlayerView.progress.value*_player.duration];
+    [_player setCurrentTime:_musicPlayerView.progress.value*_player.duration];
 }
+
 #pragma mark - 计时器事件
 //计算滑动条的长度以及更改当前时间显示
 -(void)updateSliderValue
@@ -231,35 +198,36 @@
         }
     }
     if (isPlaying) {
-
+        
         [_musicPlayerView.noLrcTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-
+        
     }
-
 }
 
 
 #pragma mark - 获取歌词
 -(void)getLyric:(NSString *)number{
     
-    
     [FetchDataFromNet fetchMusicLyric:number callback:^(NSString *stringItem,  NSError *error){
         if (error) {
             NSLog(@"error = %@",error);
              _wordArray[0] = @"无网络";
+            _wordArray[1] = @"无网络";
+            _wordArray[2] = @"无网络";
             _timeArray[0] = @"00:00";
         } else{
             if (stringItem == nil) {
                 _wordArray[0] = @"暂无歌词";
+                _wordArray[1] = @"暂无歌词";
+                _wordArray[2] = @"暂无歌词";
                 _timeArray[0] = @"00:00";
             }
             else
             [self parselyric:stringItem];
-            
+            _lyric = stringItem;
         }
         
     }];
-    
     
 }
 
@@ -267,33 +235,25 @@
 #pragma mark - 解析歌词
 -(void)parselyric:(NSString *)lyric
 {
-    
     NSArray *sepArray = [lyric componentsSeparatedByString:@"["];
     for (int i = 1; i < sepArray.count; i++) {
         NSArray *arr = [sepArray[i] componentsSeparatedByString:@"]"];
         [_timeArray addObject:arr[0]];
         [_wordArray addObject:arr[1]];
-        
     }
-    
 }
-
 
 
 #pragma mark - tableview协议
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
- 
     return [_wordArray count];
-    
 }
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-
     UITableViewCell *cell = nil;
     UILabel *label =nil;
     cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
@@ -318,13 +278,12 @@
     if (!label)
         label = (UILabel*)[cell viewWithTag:1];
     [label setText:text];
-    [label setFrame:CGRectMake(CELL_CONTENT_MARGIN, CELL_CONTENT_MARGIN, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN *2), MAX(size.height, 44.0f))];
+    [label setFrame:CGRectMake(CELL_CONTENT_MARGIN +35, CELL_CONTENT_MARGIN, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN *2), MAX(size.height, 44.0f))];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     cell.backgroundColor = [UIColor clearColor];
     cell.backgroundView = nil;
     return cell;
-    
     
 }
 
@@ -342,16 +301,15 @@
     CGFloat height =MAX(size.height, 34.0f);
  
     return height + (CELL_CONTENT_MARGIN );
-   // NSString
+   
 }
 
 
 
 -(void)selectLeftAction:(id)sender
 {
-
- 
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    //[self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
@@ -360,28 +318,80 @@
 -(void)resetMusicPlayer
 {
     _player = nil;
-    
     [self removeCurrentTime];
-    
 }
 
 
 -(void)removeCurrentTime
 {
     [self.CurrentTimeTimer invalidate];
-    
      //把定时器清空
     self.CurrentTimeTimer=nil;
-    
-    
 }
 
 
 
-
--(void)dealloc
-{
-    NSLog(@"到底释不释放啊");
+/*
+#pragma mark - 使用另一种方式改变player
+-(void)getMusicPlayer:(NSURL *)url{
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
 }
 
+-(void)getMusic:(NSString *)url musicName:(NSString *)musicName identifier:(NSString *)identifier{
+    
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , identifier];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    dispatch_queue_t queue =  dispatch_queue_create("music", NULL);
+    
+    dispatch_sync(queue, ^{
+        NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        //下载文件
+        [data writeToFile:filePath atomically:YES];
+        _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
+        [_wordArray removeAllObjects];
+        [_timeArray removeAllObjects];
+        [self getLyric:identifier];
+        
+        NSLog(@"开始下载");
+    });
+    dispatch_sync(queue, ^{
+     
+         _musicPlayerView.totalPlaybackTime.text = [self strWithTime:_player.duration];//duration为总时长
+        [NSTimer scheduledTimerWithTimeInterval:0.001 target:self selector:@selector(updateSliderValue) userInfo:nil repeats:YES];
+        [FMDBUse saveByMusicId:identifier lyric:_lyric musicName:musicName];
+        
+        _musicPlayerView.noLrcTableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消cell分隔线
+        _musicPlayerView.noLrcTableView.delegate = self;
+        _musicPlayerView.noLrcTableView.dataSource = self;
+    
+    });
+    
+    dispatch_sync(queue, ^{
+        
+        [_musicPlayerView.progress addTarget:self action:@selector(processChanged) forControlEvents:UIControlEventValueChanged];
+        [_musicPlayerView.playButton addTarget:self action:@selector(playButtonEvent) forControlEvents:UIControlEventTouchUpInside];
+        
+        NSLog(@"什么时候刷新数据呢");
+    
+    });
+    
+    dispatch_sync(queue, ^{
+        
+        isPlaying = NO;
+        [self playButtonEvent];
+        [_player play];
+        
+    });
+    
+    
+}
+
+-(void)test:(NSString *)url{
+    NSLog(@"%@",url);
+}*/
 @end

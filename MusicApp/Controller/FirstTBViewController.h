@@ -14,8 +14,10 @@
 #import "MusicList.h"
 #import "MusicListCell.h"
 #import "MusicPlayerViewController.h"
+#import "FMDBUse.h"
 
-static MusicPlayerViewController *_musicPlayerVC;
+
+//static MusicPlayerViewController *_musicPlayerVC;
 
 @interface FirstTBViewController : UIViewController
 
@@ -29,7 +31,7 @@ static MusicPlayerViewController *_musicPlayerVC;
 
 @property(nonatomic,strong)UISearchBar *searchBar;
 
-//@property(nonatomic,strong)MusicPlayerViewController *musicPlayerVC;
+@property(nonatomic,strong)MusicPlayerViewController *musicPlayerVC;
 
 //暂时在这里设置view
 //@property(nonatomic,strong)UITableView *tableView;
@@ -48,6 +50,7 @@ static MusicPlayerViewController *_musicPlayerVC;
 
 
 
+@property(nonatomic,assign)NSString *lyric;
 
 
 

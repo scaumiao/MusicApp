@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MusicPlayerViewController.h"
 #import "FetchDataFromNet.h"
+#import "FMDBUse.h"
 @interface MyMusicTBViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 
@@ -22,5 +23,10 @@
 @property(strong,nonatomic)NSMutableArray *wordArray;
 @property(strong,nonatomic)NSMutableArray *timeArray;
 
+@property(strong,nonatomic)NSMutableArray *totalWordArray;
+
 @property(strong,nonatomic)AVAudioPlayer *player;
+
+
+@property(strong,nonatomic) UINavigationController *nav;
 @end

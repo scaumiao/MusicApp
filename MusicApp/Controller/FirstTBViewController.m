@@ -60,7 +60,7 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
  
     
     //导航条的搜索条
-    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0.0f,0.0f,220.0f,44.0f)];
+    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0.0f,0.0f,275.0f,44.0f)];
     _searchBar.delegate = self;
     [_searchBar setTintColor:[UIColor redColor]];
     [_searchBar setPlaceholder:@"搜索音乐、歌词、电台"];
@@ -122,10 +122,11 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
   
     if (_musicPlayerVC != nil) {
   
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+        self.tabBarController.tabBar.hidden = YES;
         
-        
-        [self presentViewController:nav animated:YES completion:nil];
+        self.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:_musicPlayerVC animated:YES];
+        self.hidesBottomBarWhenPushed=NO;
     }
     
  
@@ -521,69 +522,81 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
     NSString *docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@.mp3", docDirPath , identifier];
     
-    if (![fileManager fileExistsAtPath:filePath]) {
-        NSLog(@"is not exit");
         
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:str]];
+        if (![fileManager fileExistsAtPath:filePath]) {
+            NSLog(@"is not exit");
+            
+            
+
+            //[_musicPlayerVC getMusic:str musicName:musicName identifier:identifier];
+                    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:str]];
+            
+            
+            
+                    NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+                    //下载文件
+                    [data writeToFile:filePath atomically:YES];
+                    _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
+            
+                    [_wordArray removeAllObjects];
+                    [_timeArray removeAllObjects];
+                    [self getLyric:identifier];
+            
+            
+            
+        }
+        else
+        {
+            NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+            _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+            
+
+            
+        }
         
-        
-        NSData * data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-        //下载文件
-        [data writeToFile:filePath atomically:YES];
-        _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
-//        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//            
-//            
-//            //下载文件
-//            [data writeToFile:filePath atomically:YES];
-//            _player = [[AVAudioPlayer alloc] initWithData:data error:nil];
-//            
-//        }];
-        
-    }
-    else
-    {
-        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-        
-    }
+            NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+            _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+            [_player play];
     
-    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
-    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-    [_player play];
-
-    
-
-   
-
+        
     [_wordArray removeAllObjects];
     [_timeArray removeAllObjects];
     [self getLyric:identifier];
     
-    //获取单例，判断是否在播放
-    _musicPlayerVC = [MusicPlayerViewController shareInstance];
-    if ([_musicPlayerVC.player isPlaying]) {
-        [_musicPlayerVC.player stop];
-    }
-   
-    
-    _musicPlayerVC.wordArray = _wordArray;
-    _musicPlayerVC.timeArray = _timeArray;
-    _musicPlayerVC.player = _player;
-    
-    [_musicPlayerVC.player play];
-    
-    _musicPlayerVC.musicId = identifier;
-    _musicPlayerVC.detailUrl = str;
-    _musicPlayerVC.musicName = cell.musicListFrame.musicData.trackname;
-
-
-
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
-   
-    [self presentViewController:nav animated:YES completion:nil];
+    NSString *musicName = cell.musicListFrame.musicData.trackname;
+    [FMDBUse saveByMusicId:identifier lyric:_lyric musicName:musicName];
     
     
+        //获取单例，判断是否在播放
+            _musicPlayerVC = [MusicPlayerViewController shareInstance];
+        if ([_musicPlayerVC.player isPlaying]) {
+            [_musicPlayerVC.player stop];
+        }
+        
+        
+            _musicPlayerVC.wordArray = _wordArray;
+            _musicPlayerVC.timeArray = _timeArray;
+            _musicPlayerVC.player = _player;
+           [_musicPlayerVC.player play];
+        
+        _musicPlayerVC.musicId = identifier;
+        _musicPlayerVC.detailUrl = str;
+        _musicPlayerVC.musicName = cell.musicListFrame.musicData.trackname;
+        
+    
+        
+  //  });
+    
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_musicPlayerVC];
+//   
+//    [self presentViewController:nav animated:YES completion:nil];
+    
+    self.tabBarController.tabBar.hidden = YES;
+    
+    self.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:_musicPlayerVC animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
     
 }
 
@@ -604,8 +617,11 @@ NSString *const httpUrl =    @"http://apis.baidu.com/geekery/music/query";
                     _timeArray[0] = @"00:00";
                 }
                 else
+                {
                     
                     [self parselyric:stringItem];
+                    _lyric = stringItem;
+                }
                 
             }
             

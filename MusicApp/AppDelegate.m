@@ -49,7 +49,7 @@
         c2.view.backgroundColor=[UIColor colorWithRed:214/255.0 green:84/255.0 blue:76/255.0 alpha:1.0f];
         c2.tabBarItem.title=@"我的音乐";
         c2.tabBarItem.image = [UIImage imageNamed:@"main_index02.png"];
-        
+      
         
         UIViewController *c3=[[UIViewController alloc]init];
         c3.tabBarItem.title=@"朋友";
@@ -70,12 +70,10 @@
         //_rootTab.tabBar.tintColor = [UIColor redColor];
         
         //设置tabbar背景颜色为黑色
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 49)];
+        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 49)];
         backView.backgroundColor = [UIColor blackColor];
         [_rootTab.tabBar insertSubview:backView atIndex:0];
         _rootTab.tabBar.opaque = YES;
-        
-        
         
         
         

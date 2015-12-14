@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "MusicPlayerView.h"
-
+#import "FMDBUse.h"
 
 @interface MusicPlayerViewController : UIViewController
 {
@@ -23,6 +23,8 @@
 @property (nonatomic,strong)NSMutableArray *timeArray;
 
 //歌词
+@property(nonatomic,assign)NSString *lyric;
+
 @property (nonatomic,strong)NSMutableArray *wordArray;
 //
 //
@@ -42,7 +44,11 @@
 
 -(void)getLyric:(NSString *)number;
 -(void)parselyric:(NSString *)lyric;
-
+-(void)getMusicPlayer:(NSURL *)url;
+-(void)getMusic:(NSString *)url musicName:(NSString *)musicName identifier:(NSString *)identifier;
 +(MusicPlayerViewController *)shareInstance;
 
+
+
+-(void)test:(NSString *)url;
 @end

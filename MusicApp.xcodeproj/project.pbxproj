@@ -40,6 +40,7 @@
 		7BE2954B1BA031A7006056C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE295491BA031A7006056C2 /* LaunchScreen.storyboard */; };
 		7BE295561BA031A7006056C2 /* MusicAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE295551BA031A7006056C2 /* MusicAppTests.m */; };
 		7BE295611BA031A7006056C2 /* MusicAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE295601BA031A7006056C2 /* MusicAppUITests.m */; };
+		7BE50FE51BF9D76600E54A9E /* FMDBUse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE50FE41BF9D76600E54A9E /* FMDBUse.m */; settings = {ASSET_TAGS = (); }; };
 		7BEC4BD81BC8CC6400F5249A /* MusicPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BEC4BD71BC8CC6400F5249A /* MusicPlayerView.m */; };
 		7BEC4BDB1BC8CC9800F5249A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BEC4BDA1BC8CC9800F5249A /* MusicPlayerViewController.m */; };
 /* End PBXBuildFile section */
@@ -119,6 +120,8 @@
 		7BE2955C1BA031A7006056C2 /* MusicAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BE295601BA031A7006056C2 /* MusicAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicAppUITests.m; sourceTree = "<group>"; };
 		7BE295621BA031A7006056C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BE50FE31BF9D76600E54A9E /* FMDBUse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDBUse.h; sourceTree = "<group>"; };
+		7BE50FE41BF9D76600E54A9E /* FMDBUse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDBUse.m; sourceTree = "<group>"; };
 		7BEC4BD61BC8CC6400F5249A /* MusicPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerView.h; sourceTree = "<group>"; };
 		7BEC4BD71BC8CC6400F5249A /* MusicPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerView.m; sourceTree = "<group>"; };
 		7BEC4BD91BC8CC9800F5249A /* MusicPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerViewController.h; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				7B1B41231BA6CC1500B6D9C1 /* HttpSearchUtil.m */,
 				7B66FFBC1BBF70240076584D /* FetchDataFromNet.h */,
 				7B66FFBD1BBF70240076584D /* FetchDataFromNet.m */,
+				7BE50FE31BF9D76600E54A9E /* FMDBUse.h */,
+				7BE50FE41BF9D76600E54A9E /* FMDBUse.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -523,6 +528,7 @@
 				7B4979241BA16452003242AC /* Music.m in Sources */,
 				7B66FFBE1BBF70240076584D /* FetchDataFromNet.m in Sources */,
 				7B1A3F941BBB854600699094 /* MusicListCell.m in Sources */,
+				7BE50FE51BF9D76600E54A9E /* FMDBUse.m in Sources */,
 				7B9342F11BA566680073BDD8 /* BaseTabBarController.m in Sources */,
 				7B9342F61BA566FB0073BDD8 /* FirstTBView.m in Sources */,
 				7B1A3F951BBB854600699094 /* MusicListFrame.m in Sources */,
